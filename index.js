@@ -1,5 +1,6 @@
 const Express = require('express');
 const cors = require('cors');
+const path = require('path');
 const knex = require('knex');
 
 const SignIn = require('./components/SignIn');
@@ -9,9 +10,8 @@ const CycleDB = require( './components/CycleDB');
 const gamesDB = require( './components/gamesDB');
 const Admin = require( './components/Admin');
 
-
 const server = Express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 const dataBase = knex({
     client: 'pg',
     connection: {
@@ -21,6 +21,12 @@ const dataBase = knex({
     database : 'postgres'
     }
 });
+
+Express()
+.use(Express.static(path.join(__dirname, 'public')))
+  .set('view engine', 'ejs')
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+
 
 server.use(cors());
 server.use(Express.json()); 
@@ -54,7 +60,7 @@ server.post('/register',(req,res) => {
 });
     
 server.get('/home/user/:id', (req,res) => {
-                                                          User.getData(req.params.id)
+    User.getData(req.params.id)
     .then ( data => {
         let user = data;
         console.log("the user info sending is: ", user);
@@ -157,4 +163,4 @@ server.get('/closecycle/:id', (req,res) => {
 });
 
 
-server.listen(port, () => console.log("listening on port " + port));
+server.listen(PORT, () => console.log("listening on port " + PORT));
