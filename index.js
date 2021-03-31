@@ -22,15 +22,11 @@ const dataBase = knex({
     }
 });
 
-Express()
-.use(Express.static(path.join(__dirname, 'public')))
-  .set('view engine', 'ejs')
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
-
-
 server.use(cors());
 server.use(Express.json()); 
 server.use(Express.urlencoded({extended: true}));
+server.use(Express.static(path.join(__dirname, 'public')));
+server.set('view engine', 'ejs');
 
 server.post('/signin', (req,res) => {
     return SignIn.validation(req.body)
