@@ -1,7 +1,4 @@
-const Express = require('express');
-const cors = require('cors');
 const knex = require('knex');
-const bcrypt = require('bcrypt');
 
 const dataBase = knex({
     client: 'pg',

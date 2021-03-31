@@ -1,6 +1,7 @@
 const knex = require('knex');
 const bcrypt = require('bcrypt');
 
+
 const dataBase = knex({
     client: 'pg',
     connection: {
@@ -20,7 +21,7 @@ const validation = (userInfo) => {
         console.log('userInfo and user', userInfo, user);
         if (user.userid > 4 && bcrypt.compareSync(userInfo.password, user.password)) 
             {return user.userid;}
-        else if (userInfo.password === user.password ){
+        else if (user.userid <= 4 && userInfo.password === user.password ){
             return user.userid;}
         else {
             return -1;}

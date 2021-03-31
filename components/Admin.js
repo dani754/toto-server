@@ -1,7 +1,4 @@
-const Express = require('express');
-const cors = require('cors');
 const knex = require('knex');
-const bcrypt = require('bcrypt');
 
 const dataBase = knex({
     client: 'pg',
@@ -12,11 +9,6 @@ const dataBase = knex({
     database : 'postgres'
     }
 });
-
-
-/* post methods */
-
-/* get method */
 
 
 const adminData = (req,res) => {
