@@ -1,7 +1,6 @@
 const Express = require('express');
 const cors = require('cors');
 const path = require('path');
-const knex = require('knex');
 
 const SignIn = require('./components/SignIn');
 const User = require( './components/User');
@@ -12,15 +11,6 @@ const Admin = require( './components/Admin');
 
 const server = Express();
 const PORT = process.env.PORT ||5000;
-const dataBase = knex({
-    client: 'pg',
-    connection: {
-        host : '127.0.0.1',
-        user : 'postgres',
-    password : 'admin',
-    database : 'postgres'
-    }
-});
 
 server.use(cors());
 server.use(Express.json()); 
