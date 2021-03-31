@@ -33,7 +33,6 @@
     "bets"
   ],
   "engines": {
-    "node": "14.x",
-    "npm": "14.x"
+    "node": "14.x"
   }
 }
