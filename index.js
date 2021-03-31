@@ -28,6 +28,10 @@ server.use(Express.urlencoded({extended: true}));
 server.use(Express.static(path.join(__dirname, 'public')));
 server.set('view engine', 'ejs');
 
+server.get('/', (req,res) => {
+    res.send("hello world");
+})
+
 server.post('/signin', (req,res) => {
     return SignIn.validation(req.body)
     .then ( data => {
