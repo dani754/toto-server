@@ -33,7 +33,7 @@ const registration = (userInfo) => {
     .then (data => {
         if (data.toString() === ''){
             let hash = bcrypt.hashSync(userInfo.password, 10);
-            return dataBase('user_login').insert({email: userInfo.email, password: hash, username: userInfo.username})
+            return dataBase('user_login').insert({email: userInfo.email, hash: hash, username: userInfo.username})
             .returning('*').then( answer => {
                 let newUser = answer[0];
                 console.log("new user in user login db", newUser);
