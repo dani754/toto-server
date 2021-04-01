@@ -1,5 +1,6 @@
 const knex = require('knex');
 
+
 const dataBase = knex({
     client: 'pg',
     connection: {
@@ -7,10 +8,9 @@ const dataBase = knex({
         user : 'vlyrqsdtpiptxa',
     password : '19a12f3687c95a25ab0874a147077f5f900c10000eecfda3725ed26a25cef8e0',
     database : 'db09ftu7rrhmil',
-    ssl: true
+    ssl: { rejectUnauthorized: false }
     }
 });
-
 
 const adminData = (req,res) => {
     let leagueInfo = {};
