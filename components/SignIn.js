@@ -18,9 +18,9 @@ const validation = (userInfo) => {
     .then (data => {
         let user = data[0];
         console.log('userInfo and user', userInfo, user);
-        if (user.userid > 1 && bcrypt.compareSync(userInfo.password, user.password)) 
+        if (user.userid > 1 && bcrypt.compareSync(userInfo.password, user.hash)) 
             {return user.userid;}
-        else if (user.userid === 1 && userInfo.password === user.password ){
+        else if (user.userid === 1 && userInfo.password === user.hash ){
             return user.userid;}
         else {
             return -1;}
