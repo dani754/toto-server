@@ -75,7 +75,7 @@ const createLeague = (info) => {
         console.log("the new league is:", league[0]);
         return dataBase('user_info').update({isadmin: newLeagueID})
         .where("userid", info.userID).returning('*')
-    }).then ( user => {
+    }).then ( user => { 
         return User.joinLeague({userID: info.userID, leagueID: user[0].isadmin})
     }).then( user1 => {
         let userData = user1[0];

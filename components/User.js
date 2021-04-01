@@ -36,12 +36,12 @@ const joinLeague = (data) => {
         return user.leagues;
     }).then ( array => {
         console.log("old leagues array in user db", array);
-        if (array !== null && array.indexOf(parseInt(data.leagueID)) === -1){
+        if (array !== null && array[0] !== 0 && array.indexOf(parseInt(data.leagueID)) === -1){
             let newArray = array.concat([data.leagueID]);
             console.log("new array in user db", newArray);
             return dataBase('user_info').update({leagues: dataBase.raw(`array[${newArray}]`)})
             .where('userid','=', data.userID).returning('*');
-        } else if (array === null){
+        } else if (array === null || array[0] === 0){
             let newArray = [].concat([data.leagueID]);
             return dataBase('user_info').update({leagues: dataBase.raw(`array[${newArray}]`), defaultleague: data.leagueID})
             .where('userid','=', data.userID).returning('*');
