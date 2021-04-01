@@ -7,7 +7,8 @@ const dataBase = knex({
         host : 'ec2-54-205-183-19.compute-1.amazonaws.com',
         user : 'vlyrqsdtpiptxa',
     password : '19a12f3687c95a25ab0874a147077f5f900c10000eecfda3725ed26a25cef8e0',
-    database : 'db09ftu7rrhmil'
+    database : 'db09ftu7rrhmil',
+    ssl: true
     }
 });
 
