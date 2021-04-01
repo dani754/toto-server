@@ -3,10 +3,10 @@ const knex = require('knex');
 const dataBase = knex({
     client: 'pg',
     connection: {
-        host : '127.0.0.1',
-        user : 'postgres',
-    password : 'admin',
-    database : 'postgres'
+        host : 'ec2-54-205-183-19.compute-1.amazonaws.com',
+        user : 'vlyrqsdtpiptxa',
+    password : '19a12f3687c95a25ab0874a147077f5f900c10000eecfda3725ed26a25cef8e0',
+    database : 'db09ftu7rrhmil'
     }
 });
 
