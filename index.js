@@ -120,6 +120,7 @@ server.post('/updatescores', (req,res) => {
 });
 
 server.post('/addgame', (req,res) => {
+    console.log("addGame", req.body);
     return gamesDB.addGame(req.body)
     .then ( data => {
         let answer = data;
