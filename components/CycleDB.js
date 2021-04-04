@@ -66,10 +66,14 @@ const updateCurrentCycle = (cycle) => {
         isclosed: false,
     }).returning('*').orderBy('cycleorderinleague')
     .then( cycleArray => {
-        let currentCycle = cycleArray[0];
-        return dataBase('leagues').update({
-            current_cycle: currentCycle.cycleid
-        }).where('leagueid', cycle.leagueid).returning('*')
+        if (Array.isArray(cycleArray) && cycleArray.length > 0){
+            let currentCycle = cycleArray[0];
+            return dataBase('leagues').update({
+                current_cycle: currentCycle.cycleid
+            }).where('leagueid', cycle.leagueid).returning('*')
+        } else {
+            return ["no unclosed cycles"]
+        }
     }).catch( err => {return err});
 }
 

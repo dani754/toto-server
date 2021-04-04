@@ -42,12 +42,15 @@ const updateScoresInGames = async function (data, scoresArrayForUpdate) {
                 let thisGame = game[0];
                 let bets = thisGame.membersbets;
                 console.log("this Game", thisGame);
+                let point = 1;
+                if (thisGame.isbonus)
+                    point =2;
                 for (let j=0; j<bets.length; j++){
                     if (parseInt(bets[j]) === parseInt(thisGame.score)){
-                        newScoreUpdate[j] = parseInt(newScoreUpdate[j]) + 1;
+                        newScoreUpdate[j] = parseInt(newScoreUpdate[j]) + point;
                     }
                     if (parseInt(bets[j]) === parseInt(data.gamesTable[i].score)){
-                        newScoreUpdate[j] = parseInt(newScoreUpdate[j]) - 1;
+                        newScoreUpdate[j] = parseInt(newScoreUpdate[j]) - point;
                     }
                 }
             }).catch(err => console.log(err));

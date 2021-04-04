@@ -18,8 +18,8 @@ const userData = (userID) => {
     .catch(err => {return err});
 }
 
-const newUser = (userID, userName) => {
-    return dataBase('user_info').insert({userid: userID, username: userName})
+const newUser = (userID, userName, userEmail) => {
+    return dataBase('user_info').insert({userid: userID, username: userName, email: userEmail, leagues: dataBase.raw(`array[0]`)})
     .returning('*').then( data => {
         let user = data[0];
         console.log("new user in user info db", user);

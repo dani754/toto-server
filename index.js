@@ -40,7 +40,7 @@ server.post('/register',(req,res) => {
     .then ( data => {
         let user = data;
         console.log("returning from registration", user)
-        return User.newUser(user, req.body.username)
+        return User.newUser(user, req.body.username, req.body.email)
     }).then ( answer => {
         let newUser = answer;
         console.log("the new user id sending is: ", newUser.userid);
