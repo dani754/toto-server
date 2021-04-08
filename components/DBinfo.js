@@ -11,4 +11,4 @@ const dataBase = knex({
     }
 });
 
-exports.dataBase = database;
+exports.dataBase = dataBase;
