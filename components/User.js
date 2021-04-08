@@ -1,5 +1,6 @@
-const dataBase = require('./DBinfo');
-
+const knex = require('knex');
+const DBinfo = require('./DBinfo');
+const dataBase = knex(DBinfo.get());
 
 const userData = (userID) => {
     return dataBase.select('*').from('user_info')

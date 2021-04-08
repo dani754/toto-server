@@ -1,6 +1,4 @@
-const knex = require('knex');
-
-const dataBase = knex({
+const DBinfo = {
     client: 'pg',
     connection: {
         host : 'ec2-107-22-83-3.compute-1.amazonaws.com',
@@ -9,6 +7,10 @@ const dataBase = knex({
     database : 'de58s11ekq6m92',
     ssl: { rejectUnauthorized: false }
     }
-});
+};
 
-exports.dataBase = dataBase;
+const get = () => {
+    return DBinfo;
+}
+
+exports.get = get;

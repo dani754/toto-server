@@ -1,5 +1,7 @@
 const User = require( './User');
-const dataBase = require('./DBinfo');
+const knex = require('knex');
+const DBinfo = require('./DBinfo');
+const dataBase = knex(DBinfo.get());
 
 
 const leagueData = (req,res) => {

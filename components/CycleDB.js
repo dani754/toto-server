@@ -1,4 +1,6 @@
-const dataBase = require('./DBinfo');
+const knex = require('knex');
+const DBinfo = require('./DBinfo');
+const dataBase = knex(DBinfo.get());
 
 const cycleData = (req,res) => {
     let cycle = {};
