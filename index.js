@@ -130,6 +130,17 @@ server.post('/addgame', (req,res) => {
     }).catch(err => res.status(400).json(err));
 });
 
+server.post('/changeleaguename', (req,res) => {
+    console.log("changeleaguename", req.body);
+    return Admin.changeLeagueName(req.body)
+    .then ( data => {
+        let answer = data;
+        console.log("the answer for changeLeagueName is: ", answer);
+        res.send(answer);
+        res.end();
+    }).catch(err => res.status(400).json(err));
+});
+
 server.get('/deletegame/:id', (req,res) => {
     console.log("start deleteGame is")
     return gamesDB.deleteGame(req.params.id)

@@ -28,4 +28,10 @@ const adminData = (req,res) => {
     }).catch(err => res.status(400).json(err));
 }
 
+const changeLeagueName = (data) => {
+    return dataBase('leagues').update({leaguename: data.newLeagueName})
+        .where('leagueid', '=', data.leagueID).returning('*');
+}
+
 exports.getData = adminData;
+exports.changeLeagueName = changeLeagueName;
