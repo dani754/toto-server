@@ -141,6 +141,18 @@ server.post('/changeleaguename', (req,res) => {
     }).catch(err => res.status(400).json(err));
 });
 
+server.post('/updatecurrentcycle', (req,res) => {
+    console.log("updatecurrentcycle", req.body);
+    return Admin.updateCurrentCycle(req.body)
+    .then ( data => {
+        let answer = data;
+        console.log("the answer for updateCurrentCycle is: ", answer);
+        res.send(answer);
+        res.end();
+    }).catch(err => res.status(400).json(err));
+});
+
+
 server.get('/deletegame/:id', (req,res) => {
     console.log("start deleteGame is")
     return gamesDB.deleteGame(req.params.id)

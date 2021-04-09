@@ -33,5 +33,11 @@ const changeLeagueName = (data) => {
         .where('leagueid', '=', data.leagueID).returning('*');
 }
 
+const updateCurrentCycle = (data) => {
+    return dataBase('leagues').update({current_cycle: data.newCurrentCycle})
+        .where('leagueid', '=', data.leagueID).returning('*');
+}
+
 exports.getData = adminData;
 exports.changeLeagueName = changeLeagueName;
+exports.updateCurrentCycle = updateCurrentCycle;
