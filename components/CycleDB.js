@@ -86,8 +86,15 @@ const unCloseCycle = (cycleID) => {
 }
 
 
+const unLockCycle = (cycleID) => {
+    return dataBase('cycles').update({islocked: false})
+    .where('cycleid', '=', cycleID).returning('*')
+}
+
+
 exports.getData = cycleData;
 exports.addCycle = addCycle;
 exports.lockCycle = lockCycle;
 exports.closeCycle = closeCycle;
 exports.unCloseCycle = unCloseCycle;
+exports.unLockCycle = unLockCycle;

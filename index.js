@@ -175,6 +175,17 @@ server.get('/unclosecycle/:id', (req,res) => {
     }).catch(err => res.status(400).json(err));
 });
 
+server.get('/unlockcycle/:id', (req,res) => {
+    console.log("start unlockcycle is")
+    return CycleDB.unLockCycle(req.params.id)
+    .then ( data => {
+        let answer = data;
+        console.log("the answer for unLockCycle is: ", answer);
+        res.send(answer);
+        res.end();
+    }).catch(err => res.status(400).json(err));
+});
+
 server.get('/addcycle/:id', (req,res) => {
     CycleDB.addCycle(req,res);
 });
