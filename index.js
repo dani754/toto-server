@@ -164,6 +164,17 @@ server.get('/deletegame/:id', (req,res) => {
     }).catch(err => res.status(400).json(err));
 });
 
+server.get('/unclosecycle/:id', (req,res) => {
+    console.log("start unclosecycle is")
+    return CycleDB.unCloseCycle(req.params.id)
+    .then ( data => {
+        let answer = data;
+        console.log("the answer for unCloseCycle is: ", answer);
+        res.send(answer);
+        res.end();
+    }).catch(err => res.status(400).json(err));
+});
+
 server.get('/addcycle/:id', (req,res) => {
     CycleDB.addCycle(req,res);
 });

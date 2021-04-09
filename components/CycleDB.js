@@ -80,8 +80,14 @@ const closeCycle = (req,res) => {
     }).catch(err => res.status(400).json(err));
 }
 
+const unCloseCycle = (cycleID) => {
+    return dataBase('cycles').update({isclosed: false})
+    .where('cycleid', '=', cycleID).returning('*')
+}
+
 
 exports.getData = cycleData;
 exports.addCycle = addCycle;
 exports.lockCycle = lockCycle;
 exports.closeCycle = closeCycle;
+exports.unCloseCycle = unCloseCycle;
