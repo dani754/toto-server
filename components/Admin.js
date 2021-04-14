@@ -41,11 +41,11 @@ const updateCurrentCycle = (data) => {
 const fullLeagueData = (leagueID) => {
     let cyclesDB = [];
     return dataBase.select('*').from('cycles')
-    .where("leaguid", leagueID).returning('*')
+    .where("leagueid", leagueID).returning('*')
     .then ( cycles => {
         cyclesDB = cycles;
         return  dataBase.select('*').from('leagues')
-        .where("leaguid", leagueID).returning('*')
+        .where("leagueid", leagueID).returning('*')
     }).then ( league => {
         let leagueData = league[0];
         leagueData.cyclesDB = cyclesDB;
