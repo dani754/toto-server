@@ -38,6 +38,22 @@ const updateCurrentCycle = (data) => {
         .where('leagueid', '=', data.leagueID).returning('*');
 }
 
+const fullLeagueData = (leagueID) => {
+    let cyclesDB = [];
+    return dataBase.select('*').from('cycles')
+    .where("leaguid", leagueID).returning('*')
+    .then ( cycles => {
+        cyclesDB = cycles;
+        return  dataBase.select('*').from('leagues')
+        .where("leaguid", leagueID).returning('*')
+    }).then ( league => {
+        let leagueData = league[0];
+        leagueData.cyclesDB = cyclesDB;
+        return leagueData;
+    }).catch( err => {return err})
+}
+
 exports.getData = adminData;
 exports.changeLeagueName = changeLeagueName;
 exports.updateCurrentCycle = updateCurrentCycle;
+exports.fullLeagueData = fullLeagueData;

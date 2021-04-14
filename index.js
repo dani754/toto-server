@@ -81,6 +81,15 @@ server.get('/home/league/:id', (req,res) => {
     LeagueDB.getData(req,res);
 });
 
+server.get('/home/leagueadmin/:id', (req,res) => {
+    return Admin.fullLeagueData(req.params.id)
+    .then ( answer => {
+        console.log("fullLeagueData", answer);
+        res.send(answer);
+        res.end();
+    }).catch(err => res.sendStatus(400))
+});
+
 server.post('/createleague', (req,res) => {
     return LeagueDB.createLeague(req.body)
     .then( answer => {
