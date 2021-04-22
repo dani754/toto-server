@@ -173,6 +173,29 @@ server.get('/deletegame/:id', (req,res) => {
     }).catch(err => res.status(400).json(err));
 });
 
+server.get('/bonusgame/:id', (req,res) => {
+    console.log("start bonusgame is")
+    return gamesDB.bonusGame(req.params.id)
+    .then ( data => {
+        let answer = data;
+        console.log("the answer for bonusGame is: ", answer);
+        res.send(answer);
+        res.end();
+    }).catch(err => res.status(400).json(err));
+});
+
+server.get('/unbonusgame/:id', (req,res) => {
+    console.log("start unbonusgame is")
+    return gamesDB.unbonusGame(req.params.id)
+    .then ( data => {
+        let answer = data;
+        console.log("the answer for unbonusGame is: ", answer);
+        res.send(answer);
+        res.end();
+    }).catch(err => res.status(400).json(err));
+});
+
+
 server.get('/unclosecycle/:id', (req,res) => {
     console.log("start unclosecycle is")
     return CycleDB.unCloseCycle(req.params.id)

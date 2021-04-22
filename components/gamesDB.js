@@ -113,8 +113,20 @@ const deleteGame = (gameID) => {
     return dataBase('games').del().where('gameid', parseInt(gameID));
 }
 
+const bonusGame = (gameID) => {
+    console.log("bonusGame", gameID)
+    return dataBase('games').update({isbonus: true}).where('gameid', parseInt(gameID));
+}
+
+const unbonusGame = (gameID) => {
+    console.log("unbonusGame", gameID)
+    return dataBase('games').update({isbonus: false}).where('gameid', parseInt(gameID));
+}
+
 exports.updateBets = updateBets;
 exports.updateScores = updateScores;
 exports.addGame = addGame;
 exports.deleteGame = deleteGame;
+exports.bonusGame = bonusGame;
+exports.unbonusGame = unbonusGame;
 
