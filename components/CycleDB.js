@@ -91,6 +91,22 @@ const unLockCycle = (cycleID) => {
     .where('cycleid', '=', cycleID).returning('*')
 }
 
+const deleteGame = (gameInfo) => {
+    console.log("game info to delete from cycle");
+    return dataBase('cycles').select('*')
+    .where('cycleid', gameInfo[0].cycleid).returning('*')
+    .then( data => {
+        let gamesArray = data[0].gamesids;
+        const index = gamesArray.indexOf(gameInfo[0].gameid);
+        if (index > -1) {
+            gamesArray.splice(index, 1);
+            return dataBase('cycles').update({gamesids: dataBase.raw(`array[${gamesArray}]`)})
+            .where('cycleid', gameInfo[0].cycleid).returning('*')
+        } else 
+        return -1;
+    }).catch( err => {return err})
+}
+
 
 exports.getData = cycleData;
 exports.addCycle = addCycle;
@@ -98,3 +114,4 @@ exports.lockCycle = lockCycle;
 exports.closeCycle = closeCycle;
 exports.unCloseCycle = unCloseCycle;
 exports.unLockCycle = unLockCycle;
+exports.deleteGame = deleteGame;

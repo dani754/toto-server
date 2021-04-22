@@ -8,6 +8,7 @@ const LeagueDB = require( './components/LeagueDB');
 const CycleDB = require( './components/CycleDB');
 const gamesDB = require( './components/gamesDB');
 const Admin = require( './components/Admin');
+const { response } = require('express');
 
 const server = Express();
 const PORT = process.env.PORT ||5000;
@@ -165,6 +166,9 @@ server.post('/updatecurrentcycle', (req,res) => {
 server.get('/deletegame/:id', (req,res) => {
     console.log("start deleteGame is")
     return gamesDB.deleteGame(req.params.id)
+    .then ( returned => {
+        return CycleDB.deleteGame(returned)
+    })
     .then ( data => {
         let answer = data;
         console.log("the answer for deleteGame is: ", answer);

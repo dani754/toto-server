@@ -110,7 +110,7 @@ const addGame = (data) => {
 
 const deleteGame = (gameID) => {
     console.log("delete game", gameID)
-    return dataBase('games').del().where('gameid', parseInt(gameID));
+    return dataBase('games').where('gameid', parseInt(gameID)).returning('*').del();
 }
 
 const bonusGame = (gameID) => {
