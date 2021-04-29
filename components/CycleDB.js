@@ -107,6 +107,27 @@ const deleteGame = (gameInfo) => {
     }).catch( err => {return err})
 }
 
+const verifyBets = (req,res) => {
+    return dataBase('games').select('*')
+    .where('cycleid', req.params.id).returning('*')
+    .then( (answer) => {
+        console.log("games in cycle for verify bets",answer)
+        let i;
+        for (i=0; i<answer.length; i++){
+            let array = answer[i].membersbets;
+            if (array.indexOf(0) !== -1)
+                return false;
+        }
+        if (i=== answer.length){
+            return true;
+        } 
+    }).then( data => {
+        console.log("the response for verify bets",data)
+        res.send(data);
+        res.end();
+    }).catch(err => res.status(400).json(err));
+}
+
 
 exports.getData = cycleData;
 exports.addCycle = addCycle;
@@ -115,3 +136,4 @@ exports.closeCycle = closeCycle;
 exports.unCloseCycle = unCloseCycle;
 exports.unLockCycle = unLockCycle;
 exports.deleteGame = deleteGame;
+exports.verifyBets = verifyBets;

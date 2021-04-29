@@ -230,6 +230,10 @@ server.get('/lockcycle/:id', (req,res) => {
     CycleDB.lockCycle(req,res);
 });
 
+server.get('/verifybets/:id', (req,res) => {
+    CycleDB.verifyBets(req,res);
+});
+
 server.get('/closecycle/:id', (req,res) => {
     CycleDB.closeCycle(req,res);
 });
