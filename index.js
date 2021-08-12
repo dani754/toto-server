@@ -42,6 +42,11 @@ server.get('/home/user/:id', (req,res) => {
     .catch (err => res.sendStatus(400))
 });
 
+server.get('/home/get-cycle-scores/:id', (req,res) => {
+    return cycles.getCycleScores(req,res)
+    .catch (err => res.sendStatus(400))
+});
+
 //todo
 
 server.get('/home/leagueadmin/:id', (req,res) => {
