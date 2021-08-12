@@ -31,6 +31,35 @@ const getCycleData = (req,res) => {
     }).catch(err => {return err});
 }
 
+const addGameToGamesIDsArray = (cycleID, gameID, isFirst) => {
+    if (isFirst){
+        return dataBase(table).update({ games_ids: dataBase.raw(`array[${gameID}]`)})
+        .where('cycleid', '=', cycleID).returning('*')
+        .catch(err => {return err});
+    } else {
+        return dataBase(table).update({ games_ids: dataBase.raw('array_append(games_ids, ?)', [gameID])})
+        .where('cycleid', '=', cycleID).returning('*')
+        .catch(err => {return err});
+    }
+}
+
+const deleteGameFromGamesIDsArray = (cycleID, gameID) => {
+    return dataBase(table).select('*').where('cycleid', '=', cycleID).returning('*')
+    .then ( answer => {
+        let gamesArray = answer[0].games_ids;
+        const index = gamesArray.indexOf(gameID);
+        if (index > -1) {
+            gamesArray.splice(index, 1);
+            return dataBase(table).update({games_ids: dataBase.raw(`array[${gamesArray}]`)})
+            .where('cycleid', '=', cycleID).returning('*')
+        } else
+            return null;
+    }).catch( err => {return err})
+}
+
+
 exports.getCycleScores = getCycleScores;
 exports.getCycleData = getCycleData;
+exports.addGameToGamesIDsArray = addGameToGamesIDsArray;
+exports.deleteGameFromGamesIDsArray = deleteGameFromGamesIDsArray;
 

@@ -89,44 +89,8 @@ const updateScores = (data) => {
     }).catch(err => {return err});
 }
 
-const addGame = (data) => {
-    return dataBase('games').insert({
-        cycleid: parseInt(data.cycleID),
-        hometeam: data.hometeam,
-        awayteam: data.awayteam,
-        leagueid: parseInt(data.leagueID),
-        score: 0,
-        membersbets: dataBase.raw(`array[${Array(data.leagueSize).fill(0)}]`)
-    }).returning('*').then( game => {
-        if (data.firstGame){
-            return dataBase('cycles').update({ gamesids: dataBase.raw(`array[${game[0].gameid}]`)})
-            .where('cycleid', data.cycleID).returning('*')
-        } else {
-            return dataBase('cycles').update({ gamesids: dataBase.raw('array_append(gamesids, ?)', [game[0].gameid])})
-            .where('cycleid', data.cycleID).returning('*')
-        }
-    }).catch(err => {return err});
-}
 
-const deleteGame = (gameID) => {
-    console.log("delete game", gameID)
-    return dataBase('games').where('gameid', parseInt(gameID)).returning('*').del();
-}
-
-const bonusGame = (gameID) => {
-    console.log("bonusGame", gameID)
-    return dataBase('games').update({isbonus: true}).where('gameid', parseInt(gameID));
-}
-
-const unbonusGame = (gameID) => {
-    console.log("unbonusGame", gameID)
-    return dataBase('games').update({isbonus: false}).where('gameid', parseInt(gameID));
-}
 
 exports.updateBets = updateBets;
 exports.updateScores = updateScores;
-exports.addGame = addGame;
-exports.deleteGame = deleteGame;
-exports.bonusGame = bonusGame;
-exports.unbonusGame = unbonusGame;
 

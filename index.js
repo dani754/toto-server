@@ -57,6 +57,32 @@ server.post('/updatebets', (req,res) => {
     .catch (err => res.sendStatus(400))
 });
 
+server.post('/addgame', (req,res) => {
+    return games.addGame(req,res)
+    .catch (err => res.sendStatus(400));
+});
+
+server.get('/deletegame/:id', (req,res) => {
+    return games.deleteGame(req,res)
+    .catch (err => res.sendStatus(400));
+});
+
+server.get('/bonusgame/:id', (req,res) => {
+    return games.bonusGame(req,res)
+    .catch (err => res.sendStatus(400));
+});
+
+server.get('/unbonusgame/:id', (req,res) => {
+    return games.unbonusGame(req,res)
+    .catch (err => res.sendStatus(400));
+});
+
+
+server.post('/updatescores', (req,res) => {
+    return games.updateScores(req,res)
+    .catch (err => res.sendStatus(400));
+});
+
 
 //todo
 
@@ -79,32 +105,8 @@ server.post('/createleague', (req,res) => {
 });
 
 
-server.get('/home/leagueadmin/:id', (req,res) => {
-    Admin.getData(req,res);
-});
-    
 
 
-server.post('/updatescores', (req,res) => {
-    return gamesDB.updateScores(req.body)
-    .then ( data => {
-        let answer = data;
-        console.log("the answer for update scores is: ", answer);
-        res.send(answer);
-        res.end();
-    }).catch(err => res.status(400).json(err));
-});
-
-server.post('/addgame', (req,res) => {
-    console.log("addGame", req.body);
-    return gamesDB.addGame(req.body)
-    .then ( data => {
-        let answer = data;
-        console.log("the answer for addGame is: ", answer);
-        res.send(answer);
-        res.end();
-    }).catch(err => res.status(400).json(err));
-});
 
 server.post('/changeleaguename', (req,res) => {
     console.log("changeleaguename", req.body);
@@ -129,41 +131,8 @@ server.post('/updatecurrentcycle', (req,res) => {
 });
 
 
-server.get('/deletegame/:id', (req,res) => {
-    console.log("start deleteGame is")
-    return gamesDB.deleteGame(req.params.id)
-    .then ( returned => {
-        return CycleDB.deleteGame(returned)
-    })
-    .then ( data => {
-        let answer = data;
-        console.log("the answer for deleteGame is: ", answer);
-        res.send(answer);
-        res.end();
-    }).catch(err => res.status(400).json(err));
-});
 
-server.get('/bonusgame/:id', (req,res) => {
-    console.log("start bonusgame is")
-    return gamesDB.bonusGame(req.params.id)
-    .then ( data => {
-        let answer = data;
-        console.log("the answer for bonusGame is: ", answer);
-        res.send(answer);
-        res.end();
-    }).catch(err => res.status(400).json(err));
-});
 
-server.get('/unbonusgame/:id', (req,res) => {
-    console.log("start unbonusgame is")
-    return gamesDB.unbonusGame(req.params.id)
-    .then ( data => {
-        let answer = data;
-        console.log("the answer for unbonusGame is: ", answer);
-        res.send(answer);
-        res.end();
-    }).catch(err => res.status(400).json(err));
-});
 
 
 server.get('/unclosecycle/:id', (req,res) => {
