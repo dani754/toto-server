@@ -15,17 +15,23 @@ create table user_info_1(
 	is_admin boolean default false,
 	leagues int[],
 	image text,
-	foreign key (userid) references user_login (userid),
+	foreign key (userid) references user_login_1 (userid),
 	foreign key (image) references images (imgname)
 );
+
+update user_info_1 set is_admin=true where username='מנהל';
 
 create table leagues_1(
 	leagueid serial primary key,
 	leaguename varchar(30) not null,
 	members_ids int[],
 	current_cycle_id int default 0,
-	members_scores_league int[]
+	members_scores_league int[],
+	members_names text[]
 );
+
+insert into leagues_1 values(1,'טוטו שמש 2021-22',array[1,2,3,4,5,6,7,8,9], 1, array[0,0,0,0,0,0,0,0,0]);
+update leagues_1 set members_names=array['אוהד','עמית','עידן','אור','רואי','דור','טוביה','אורי','רון'] where leagueid=1;
 
 create table cycles_1(
 	cycleid serial primary key,
@@ -36,8 +42,10 @@ create table cycles_1(
 	lock_for_updates boolean default false,
 	lock_bets_time TIMESTAMP,
 	members_scores_cycle int[],
-	foreign key (leagueid) references leagues (leagueid)
+	foreign key (leagueid) references leagues_1 (leagueid)
 );
+
+insert into cycles_1 values(1,1,array[1],1,false,false,null,array[0,0,0,0,0,0,0,0,0]);
 
 create table games_1(
 	gameid serial primary key,
@@ -47,7 +55,8 @@ create table games_1(
 	score int default 0,
 	members_bets int[],
 	is_bonus boolean default false,
-	foreign key (cycleid) references cycles (cycleid)
+	foreign key (cycleid) references cycles_1 (cycleid)
 );
 
+insert into games_1 values (1,1,'','',0,array[0,0,0,0,0,0,0,0,0],false);
 
