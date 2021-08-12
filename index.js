@@ -8,7 +8,12 @@ const LeagueDB = require( './components/LeagueDB');
 const CycleDB = require( './components/CycleDB');
 const gamesDB = require( './components/gamesDB');
 const Admin = require( './components/Admin');
-const { response } = require('express');
+
+const userLogin = require('./user_login');
+const userInfo = require('./user_info');
+const leagues = require('./leagues');
+const cycles = require('./cycles');
+const games = require('./games');
 
 const server = Express();
 const PORT = process.env.PORT ||5000;
@@ -24,32 +29,15 @@ server.get('/', (req,res) => {
 })
 
 server.post('/signin', (req,res) => {
-    return SignIn.validation(req.body)
-    .then ( data => {
-        let user = data;
-        console.log("returning from signin", user);
-        return user.toString();
-    }).then ( answer => {
-        res.header("Access-Control-Allow-Origin", "*");
-        res.send(answer);
-        res.end();
-    }).catch(err => res.sendStatus(400))
+    return userLogin.logIn(req,res)
+    .catch(err => res.sendStatus(400))
 });
 
 server.post('/register',(req,res) => {
-    return SignIn.registration(req.body)
-    .then ( data => {
-        let user = data;
-        console.log("returning from registration", user)
-        return User.newUser(user, req.body.username, req.body.email)
-    }).then ( answer => {
-        let newUser = answer;
-        console.log("the new user id sending is: ", newUser.userid);
-        res.send(newUser.userid.toString());
-        res.end();
-    }).catch(err => res.sendStatus(400))
+    return userLogin.register(req,res)
+    .catch(err => res.sendStatus(400))
 });
-    
+
 server.get('/home/user/:id', (req,res) => {
     User.getData(req.params.id)
     .then ( data => {
