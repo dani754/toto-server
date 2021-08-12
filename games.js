@@ -12,7 +12,7 @@ const getGamesDB = (cycleID) => {
 
 const updateGamesBets = (data) => {
     for (let i=0; i<data.gamesTable.length; i++){
-        dataBase.select('members_bets').from('games').where('gameid', '=', data.gamesTable[i].gameID)
+        dataBase.select('members_bets').from(table).where('gameid', '=', data.gamesTable[i].gameID)
         .then((array) => {
             let newArray = array[0];
             newArray.members_bets[data.userIndex] = parseInt(data.gamesTable[i].userBet);
@@ -20,10 +20,10 @@ const updateGamesBets = (data) => {
             return newArray;
         }).then((newArray)=>{
             let updatedArray = `array[${newArray.members_bets}]`;
-            return dataBase.update({members_bets: dataBase.raw(updatedArray)}).table('games').where('gameid','=', data.gamesTable[i].gameID).returning('*');
+            return dataBase.update({members_bets: dataBase.raw(updatedArray)}).table(table).where('gameid','=', data.gamesTable[i].gameID).returning('*');
         }).catch(err => console.log(err));
     }
-    return dataBase.select('*').from('games').where('cycleid', '=', data.gamesTable[0].cycleid);
+    return dataBase.select('*').from(table).where('cycleid', '=', data.gamesTable[0].cycleid);
 }
 
 const updateBets = (req,res) => {
