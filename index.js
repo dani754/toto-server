@@ -47,6 +47,17 @@ server.get('/home/get-cycle-scores/:id', (req,res) => {
     .catch (err => res.sendStatus(400))
 });
 
+server.get('/home/cycle/:id', (req,res) => {
+    return cycles.getCycleData(req,res)
+    .catch (err => res.sendStatus(400))
+});
+
+server.post('/updatebets', (req,res) => {
+    games.updateBets(req,res)
+    .catch (err => res.sendStatus(400))
+});
+
+
 //todo
 
 server.get('/home/leagueadmin/:id', (req,res) => {
@@ -67,24 +78,12 @@ server.post('/createleague', (req,res) => {
     }).catch(err => {return err});
 });
 
-server.get('/home/cycle/:id', (req,res) => {
-    CycleDB.getData(req,res);
-});
 
 server.get('/home/leagueadmin/:id', (req,res) => {
     Admin.getData(req,res);
 });
     
 
-server.post('/updatebets', (req,res) => {
-    gamesDB.updateBets(req.body)
-    .then ( data => {
-        let answer = data[0];
-        console.log("the answer for update bets is: ", answer);
-        res.send(answer);
-        res.end();
-    }).catch(err => res.status(400).json(err));
-});
 
 server.post('/updatescores', (req,res) => {
     return gamesDB.updateScores(req.body)
