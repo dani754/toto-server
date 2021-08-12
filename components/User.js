@@ -2,7 +2,7 @@ const knex = require('knex');
 const DBinfo = require('./DBinfo');
 const dataBase = knex(DBinfo.get());
 
-cconst joinLeague = (data) => {
+const joinLeague = (data) => {
     return dataBase('user_info').select('*')
     .where('userid', data.userID).returning('*')
     .then( data2 => {

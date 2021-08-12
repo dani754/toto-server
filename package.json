@@ -12,7 +12,7 @@
     "url": "https://git.heroku.com/toto-server.git"
   },
   "author": "danielle vaitsman",
-  "license": "ISC",
+  "license": "GNU",
   "devDependencies": {
     "got": "^11.3.0",
     "tape": "^4.7.0"
