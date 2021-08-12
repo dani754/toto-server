@@ -8,15 +8,6 @@ const userData = (userID) => {
     .catch(err => {return err});
 }
 
-const newUser = (userID, userName, userEmail) => {
-    return dataBase('user_info').insert({userid: userID, username: userName, email: userEmail, leagues: dataBase.raw(`array[0]`)})
-    .returning('*').then( data => {
-        let user = data[0];
-        console.log("new user in user info db", user);
-        return user;
-    }).catch(err => {return err});
-}
-
 const joinLeague = (data) => {
     return dataBase('user_info').select('*')
     .where('userid', data.userID).returning('*')

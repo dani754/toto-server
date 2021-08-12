@@ -4,15 +4,6 @@ const DBinfo = require('./DBinfo');
 const dataBase = knex(DBinfo.get());
 
 
-const leagueData = (req,res) => {
-    dataBase.select('*').from('leagues')
-    .where('leagueid', '=', req.params.id)
-    .then (data => {
-        res.send(data[0]);
-        res.end();
-    }).catch(err => res.status(400).json(err));
-}
-
 const newMember = (data) => {
     return dataBase('leagues').select('*')
     .where('leagueid', data.leagueID).returning('*')

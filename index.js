@@ -2,7 +2,6 @@ const Express = require('express');
 const cors = require('cors');
 const path = require('path');
 
-const SignIn = require('./components/SignIn');
 const User = require( './components/User');
 const LeagueDB = require( './components/LeagueDB');
 const CycleDB = require( './components/CycleDB');
@@ -39,35 +38,12 @@ server.post('/register',(req,res) => {
 });
 
 server.get('/home/user/:id', (req,res) => {
-    User.getData(req.params.id)
-    .then ( data => {
-        let user = data;
-        console.log("the user info sending is: ", user);
-        res.send(user);
-        res.end();
-    }).catch (err => res.sendStatus(400))
-});
-
-server.post('/joinLeague',(req,res) => {
-    LeagueDB.newMember(req.body)
-    .then ( data => {
-        let user = data;
-        console.log("the new members array in league is: ", user)
-        if (user !== -1){
-            return User.joinLeague(req.body)
-        } else {
-            return "-1";
-        }
-    }).then ( answer => {
-        let result = answer[0].leagues;
-        console.log("the new leagues array in user info is: ", result);
-        res.send(result);
-        res.end();
-    }).catch(err => res.sendStatus(400))
+    userInfo.getUserInfo(req,res)
+    .catch (err => res.sendStatus(400))
 });
 
 server.get('/home/league/:id', (req,res) => {
-    LeagueDB.getData(req,res);
+    leagues.getLeagueInfo(req,res);
 });
 
 server.get('/home/leagueadmin/:id', (req,res) => {
