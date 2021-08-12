@@ -15,14 +15,14 @@ const registeration = (userID, userPublicName) => {
 }
 
 const getUserInfo = (req,res) => {
+    let data = {};
     return dataBase.select('*').from(table)
     .where('userid','=',req.params.id).returning('*')
     .then( answer => {
-        let user = answer[0];
-        let leagueInfo = leagues.getLeagueInfo(1);
-        user.leagueData = leagueInfo;
-        return user;
-    }).then ( data => {
+        data = answer[0];
+        return leagues.getLeagueInfo(1);
+    }).then ( answer1 => {
+        data.leagueData = answer1;
         console.log("the user and league info sending is: ", data);
         res.send(data);
         res.end();        
