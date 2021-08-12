@@ -12,11 +12,9 @@ const logIn = (req,res) => {
     .then (answer => {
         let user = answer[0];
         if (bcrypt.compareSync(req.body.password, user.password)){
-            res.header("Access-Control-Allow-Origin", "*");
             res.send(user.userid.toString());
             res.end();
         } else {
-            res.header("Access-Control-Allow-Origin", "*");
             res.send("0");
             res.end();
         }
