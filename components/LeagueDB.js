@@ -73,6 +73,5 @@ const createLeague = (info) => {
     }).catch(err => {return err});
 }
 
-exports.getData = leagueData;
 exports.newMember = newMember;
 exports.createLeague = createLeague;
