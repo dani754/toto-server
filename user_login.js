@@ -4,7 +4,6 @@ const dataBase = knex(DBinfo.get());
 const bcrypt = require('bcrypt');
 
 const userInfo = require('./user_info');
-const { response } = require('express');
 const table = 'user_login_1'; 
 
 const logIn = (req,res) => {
@@ -31,8 +30,8 @@ const register = (req,res) => {
         if (answer.toString() === ''){
             let hash = bcrypt.hashSync(req.body.password, 10);
             return dataBase(table).insert({username: req.body.username, password: hash}).returning('*')
-            .then( response => {
-                let newUser = response[0];
+            .then( answer1 => {
+                let newUser = answer1[0];
                 console.log("new user in user login db", newUser);
                 return userInfo.register(newUser.userid, req.body.publicName);
             }).then( data => {
