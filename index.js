@@ -38,13 +38,11 @@ server.post('/register',(req,res) => {
 });
 
 server.get('/home/user/:id', (req,res) => {
-    userInfo.getUserInfo(req,res)
+    return userInfo.getUserInfo(req,res)
     .catch (err => res.sendStatus(400))
 });
 
-server.get('/home/league/:id', (req,res) => {
-    leagues.getLeagueInfo(req,res);
-});
+//todo
 
 server.get('/home/leagueadmin/:id', (req,res) => {
     return Admin.fullLeagueData(req.params.id)

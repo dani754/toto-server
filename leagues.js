@@ -4,14 +4,13 @@ const dataBase = knex(DBinfo.get());
 
 const table = 'leagues_1';
 
-const getLeagueInfo = (req,res) => {
+const getLeagueInfo = (leagueID) => {
     return dataBase.select('*').from(table)
-    .where('leagueid','=',req.params.id).returning('*')
+    .where('leagueid','=',leagueID).returning('*')
     .then( answer => {
         let league = answer[0];
         console.log("the league info sending is: ", league);
-        res.send(league);
-        res.end();
+        return league;
     }).catch(err => {return err});
 }
 

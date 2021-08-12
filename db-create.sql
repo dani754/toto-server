@@ -27,11 +27,13 @@ create table leagues_1(
 	members_ids int[],
 	current_cycle_id int default 0,
 	members_scores_league int[],
-	members_names text[]
+	members_names text[],
+	cycles_ids int[]
 );
 
 insert into leagues_1 values(1,'טוטו שמש 2021-22',array[1,2,3,4,5,6,7,8,9], 1, array[0,0,0,0,0,0,0,0,0]);
 update leagues_1 set members_names=array['אוהד','עמית','עידן','אור','רואי','דור','טוביה','אורי','רון'] where leagueid=1;
+update leagues_1 set cycles_ids=array[1] where leagueid=1; 
 
 create table cycles_1(
 	cycleid serial primary key,
