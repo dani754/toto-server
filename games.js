@@ -85,9 +85,36 @@ const unbonusGame = (req,res) => {
     }).catch(err => {return err});
 }
 
+const updateGamesScores = async function (oldMembersScoresArray, scoresTable) {
+    let membersScoresCycle = oldMembersScoresArray;
+    for (let i=0; i<scoresTable.length(); i++){
+        if (parseInt(scoresTable[i].score) !== parseInt(scoresTable[i].newScore)){
+            await dataBase(table).update({score: parseInt(scoresTable[i].newScore)})
+            .where('gameid', scoresTable[i].gameID).returning('*')
+            .then( game => {
+                let thisGame = game[0];
+                let bets = thisGame.members_bets;
+                let point = 1;
+                if (thisGame.is_bonus)
+                    point =2;
+                for (let j=0; j<bets.length; j++){
+                    if (parseInt(bets[j]) === parseInt(thisGame.score)){
+                        membersScoresCycle[j] = parseInt(membersScoresCycle[j]) + point;
+                    }
+                    else if (parseInt(scoresTable[i].score) !==0 && parseInt(bets[j]) === parseInt(scoresTable[i].score)){
+                        membersScoresCycle[j] = parseInt(membersScoresCycle[j]) - point;
+                    }
+                }
+            }).catch(err => console.log(err));
+        }
+    }
+    return membersScoresCycle;
+}
+
+//delete
 
 const updateScoresInGames = async function (data, scoresArrayForUpdate) {
-    let newScoreUpdate = JSON.parse(JSON.stringify(scoresArrayForUpdate.members_scores));
+    let newScoreUpdate = JSON.parse(JSON.stringify(scoresArrayForUpdate.members_scores_cycle));
     for (let i=0; i<data.gamesTable.length; i++){
         if (data.gamesTable[i].score !== parseInt(data.gamesTable[i].newScore)){
             await dataBase('games_1').update({score: parseInt(data.gamesTable[i].newScore)})
@@ -97,7 +124,7 @@ const updateScoresInGames = async function (data, scoresArrayForUpdate) {
                 let bets = thisGame.members_bets;
                 console.log("this Game", thisGame);
                 let point = 1;
-                if (thisGame.isb_onus)
+                if (thisGame.is_bonus)
                     point =2;
                 for (let j=0; j<bets.length; j++){
                     if (parseInt(bets[j]) === parseInt(thisGame.score)){
@@ -163,5 +190,5 @@ exports.addGame = addGame;
 exports.deleteGame = deleteGame;
 exports.bonusGame = bonusGame;
 exports.unbonusGame = unbonusGame;
-exports.updateScores = updateScores;
+exports.updateGamesScores = updateGamesScores;
 

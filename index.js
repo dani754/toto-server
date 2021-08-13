@@ -79,7 +79,7 @@ server.get('/unbonusgame/:id', (req,res) => {
 
 
 server.post('/updatescores', (req,res) => {
-    return games.updateScores(req,res)
+    return cycles.updateScores(req,res)
     .catch (err => res.sendStatus(400));
 });
 

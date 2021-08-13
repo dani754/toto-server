@@ -31,7 +31,7 @@ create table leagues_1(
 	cycles_ids int[]
 );
 
-insert into leagues_1 values(1,'טוטו שמש 2021-22',array[1,2,3,4,5,6,7,8,9], 1, array[0,0,0,0,0,0,0,0,0],array['אוהד','עמית','עידן','אור','רואי','דור','טוביה','אורי','רון'],array[1]);
+insert into leagues_1 values(1,'טוטו שמש 2021-22',array[1,2,3,4,5,6,7,8,9], 1, array[0,0,0,0,0,0,0,0,0],array['אוהד','עמית','עידן','אור','רואי','דור','טוביה','ברגמן','רון'],array[1]);
 
 create table cycles_1(
 	cycleid serial primary key,
@@ -46,6 +46,7 @@ create table cycles_1(
 );
 
 insert into cycles_1 values(1,1,array[1],1,false,false,null,array[0,0,0,0,0,0,0,0,0]);
+update cycles_1 set lock_for_bets=false where cycleid=1;
 
 create table games_1(
 	gameid serial primary key,
@@ -58,5 +59,19 @@ create table games_1(
 	foreign key (cycleid) references cycles_1 (cycleid)
 );
 
-insert into games_1 values (1,1,'','',0,array[0,0,0,0,0,0,0,0,0],false);
+insert into games_1 values
+(1,1,'לכיה אשל','עמית יונייטד',0,array[0,0,0,0,0,0,0,0,0],false),
+(2,1,'ברנטפורד +1','ארסנל',0,array[0,0,0,0,0,0,0,0,0],false),
+(3,1,'מנצ׳סטר יונייטד','לידס +1',0,array[0,0,0,0,0,0,0,0,0],false),
+(4,1,'ברנלי','ברייטון',0,array[0,0,0,0,0,0,0,0,0],true),
+(5,1,'צ׳לסי','קריסטל פאלאס +2',0,array[0,0,0,0,0,0,0,0,0],false),
+(6,1,'אברטון','סאות׳המפטון +1',0,array[0,0,0,0,0,0,0,0,0],false),
+(7,1,'לסטר','וולבס +1',0,array[0,0,0,0,0,0,0,0,0],false),
+(8,1,'ווטפורד','אסטון וילה',0,array[0,0,0,0,0,0,0,0,0],false),
+(9,1,'נוריץ׳ +2','ליברפול',0,array[0,0,0,0,0,0,0,0,0],false),
+(10,1,'ניוקאסל','ווסטהאם',0,array[0,0,0,0,0,0,0,0,0],false),
+(11,1,'טוטנהאם +1','מנצ׳סטר סיטי',0,array[0,0,0,0,0,0,0,0,0],false);
+
+drop table games_1;
+
 

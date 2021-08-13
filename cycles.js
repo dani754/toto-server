@@ -3,6 +3,7 @@ const DBinfo = require('./DB_info');
 const dataBase = knex(DBinfo.get());
 
 const games = require('./games');
+const leagues = require('./leagues');
 const table = 'cycles_1';
 
 const getCycleScores = (req,res) => {
@@ -57,9 +58,41 @@ const deleteGameFromGamesIDsArray = (cycleID, gameID) => {
     }).catch( err => {return err})
 }
 
+const updateMembersScoresInCycle = async function  (oldMembersScoresArray,newMembersScoresArray, cycleID){
+    let deltaArrayForLeague = newMembersScoresArray;
+    for (let i=0; i<deltaArrayForLeague; i++){
+        deltaArrayForLeague[i] -= oldMembersScoresArray[i];
+    }
+    await dataBase(table).update({members_scores_cycle: dataBase.raw(`array[${newMembersScoresArray}]`)})
+    .where('cycleid', '=', cycleID).returning('*')
+    .then( answer => {
+        return deltaArrayForLeague;
+    }).catch(err => console.log(err));
+}
+
+const updateScores = (req,res) => {
+    let scoresTable = req.body.gamesTable;
+    let leagueID = 0;
+    let oldMembersScoresArray = [];
+    return dataBase(table).select('*').where('cycleid','=',req.body.cycleID).returning('*')
+    .then( cycle => {
+        leagueID = cycle[0].leagueid;
+        oldMembersScoresArray = JSON.parse(JSON.stringify(cycle.members_scores_cycle));
+        return games.updateGamesScores(oldMembersScoresArray, scoresTable);
+    }).then( answer => {
+        return updateMembersScoresInCycle(oldMembersScoresArray, answer ,req.body.cycleID); 
+    }).then( answer2 => {
+        return leagues.updateMembersScoresInLeague(leagueID, answer2); //delta array
+    }).then( answer3 => {
+        res.send(answer3);
+        res.end();        
+    }).catch(err => {return err});
+}
+
 
 exports.getCycleScores = getCycleScores;
 exports.getCycleData = getCycleData;
 exports.addGameToGamesIDsArray = addGameToGamesIDsArray;
 exports.deleteGameFromGamesIDsArray = deleteGameFromGamesIDsArray;
+exports.updateScores = updateScores;
 
