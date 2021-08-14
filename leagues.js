@@ -41,6 +41,7 @@ const leagueAdmin = (req,res) => {
         return games.getGamesDB(data.current_cycle_id);
     }).then ( answer3 => {
         data.gamesDB = answer3;
+        console.log("admin info", data);
         res.send(data);
         res.end();        
     }).catch(err => {return err});
