@@ -88,18 +88,17 @@ server.get('/leagueadmin/:id', (req,res) => {
     .catch (err => res.sendStatus(400));
 });
 
+server.get('/gamesDB/:id', (req,res) => {
+    return games.getGamesDB(req.params.id)
+    .then( answer => {
+        res.send(answer);
+        res.end();
+    }).catch (err => res.sendStatus(400));
+});
+
 
 //todo
 
-
-server.get('/home/leagueadmin/:id', (req,res) => {
-    return Admin.fullLeagueData(req.params.id)
-    .then ( answer => {
-        console.log("fullLeagueData", answer);
-        res.send(answer);
-        res.end();
-    }).catch(err => res.sendStatus(400))
-});
 
 
 server.post('/createleague', (req,res) => {
