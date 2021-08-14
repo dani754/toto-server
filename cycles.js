@@ -91,7 +91,7 @@ const updateScores = (req,res) => {
 
 const getCyclesDB = (leagueID) => {
     return dataBase.select('*').from(table)
-    .where(leagueid, '=', leagueID).returning('*')
+    .where('leagueid', '=', leagueID).returning('*')
     .catch(err => {return err});
 }
 

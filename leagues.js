@@ -36,11 +36,11 @@ const leagueAdmin = (req,res) => {
     .then( answer => {
         data = answer[0];
         console.log("admin info 1", data);
-        return cycles.getCyclesDB(req.params.id);
+        return cycles.getCyclesDB(data.leagueid);
     }).then( answer2 => {
         data.cyclesDB = answer2;
         console.log("admin info 2", data);
-        return games.getGamesDB(data.current_cycle_id);
+        return games.getGamesDB(parseInt(data.current_cycle_id));
     }).then ( answer3 => {
         data.gamesDB = answer3;
         console.log("admin info 3", data);
