@@ -35,13 +35,15 @@ const leagueAdmin = (req,res) => {
     .where('leagueid','=',req.params.id).returning('*')
     .then( answer => {
         data = answer[0];
-        return cycles.getCyclesDB(data.leagueid);
+        console.log("admin info 1", data);
+        return cycles.getCyclesDB(req.params.id);
     }).then( answer2 => {
         data.cyclesDB = answer2;
+        console.log("admin info 2", data);
         return games.getGamesDB(data.current_cycle_id);
     }).then ( answer3 => {
         data.gamesDB = answer3;
-        console.log("admin info", data);
+        console.log("admin info 3", data);
         res.send(data);
         res.end();        
     }).catch(err => {return err});
