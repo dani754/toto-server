@@ -59,7 +59,7 @@ const deleteGameFromGamesIDsArray = (cycleID, gameID) => {
 }
 
 const updateMembersScoresInCycle = (newMembersScoresArray, cycleID) => {
-    dataBase(table).update({members_scores_cycle: dataBase.raw(`array[${newMembersScoresArray}]`)})
+    return dataBase(table).update({members_scores_cycle: dataBase.raw(`array[${newMembersScoresArray}]`)})
     .where('cycleid', '=', cycleID).returning('*');
 }
 
