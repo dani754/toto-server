@@ -86,9 +86,9 @@ const unbonusGame = (req,res) => {
 }
 
 const updateScoresInGames = async function (oldMembersScoresArray, scoresTable) {
-    console.log("updateGamesScores",oldMembersScoresArray,scoresTable);
     let membersScoresCycle = JSON.parse(JSON.stringify(oldMembersScoresArray));
-    for (let i=0; i<scoresTable.length(); i++){
+    console.log("updateGamesScores",membersScoresCycle,scoresTable);
+    for (let i=0; i<scoresTable.length; i++){
         console.log("game loop",scoresTable[i]);
         if (scoresTable[i].score !== scoresTable[i].newScore){
             console.log("thisGame",scoresTable[i]);
