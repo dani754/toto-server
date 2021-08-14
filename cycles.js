@@ -58,16 +58,9 @@ const deleteGameFromGamesIDsArray = (cycleID, gameID) => {
     }).catch( err => {return err})
 }
 
-const updateMembersScoresInCycle = async function  (oldMembersScoresArray,newMembersScoresArray, cycleID){
-    let deltaArrayForLeague = newMembersScoresArray;
-    for (let i=0; i<deltaArrayForLeague; i++){
-        deltaArrayForLeague[i] -= oldMembersScoresArray[i];
-    }
-    await dataBase(table).update({members_scores_cycle: dataBase.raw(`array[${newMembersScoresArray}]`)})
-    .where('cycleid', '=', cycleID).returning('*')
-    .then( answer => {
-        return deltaArrayForLeague;
-    }).catch(err => console.log(err));
+const updateMembersScoresInCycle = (newMembersScoresArray, cycleID) => {
+    dataBase(table).update({members_scores_cycle: dataBase.raw(`array[${newMembersScoresArray}]`)})
+    .where('cycleid', '=', cycleID).returning('*');
 }
 
 const updateScores = (req,res) => {
@@ -79,9 +72,9 @@ const updateScores = (req,res) => {
         oldMembersScoresArray = cycle[0].members_scores_cycle;
         return games.updateScoresInGames(oldMembersScoresArray, req.body.gamesTable);
         }).then( answer => {
-        return updateMembersScoresInCycle(oldMembersScoresArray, answer, req.body.cycleID); 
+        return updateMembersScoresInCycle(answer, req.body.cycleID); 
     }).then( answer2 => {
-        return leagues.updateMembersScoresInLeague(leagueID, answer2); //delta array
+        return leagues.updateMembersScoresInLeague(leagueID, oldMembersScoresArray, answer2[0].members_scores_cycle);
     }).then( answer3 => {
         res.send(answer3);
         res.end();        

@@ -16,14 +16,15 @@ const getLeagueInfo = (leagueID) => {
     }).catch(err => {return err});
 }
 
-const updateMembersScoresInLeague = async function (leagueID, deltaArray) {
+const updateMembersScoresInLeague = async function (leagueID, oldMembersScoresArray, newMembersScoresArray) {
+    console.log("updateMembersScoresInLeague", leagueID, oldMembersScoresArray, newMembersScoresArray);
     for (let i=0; i<leagueScoresArray.length(); i++){
         leagueScoresArray[i] += deltaArray[i];
     }
     let leagueInfo = await dataBase(table).select('*').where('leagueid','=', leagueID).returning('*');
     let leagueScoresArray = JSON.parse(JSON.stringify(leagueInfo[0].members_scores_league));
     let newLeagueScoresArray = await leagueScoresArray.map( (score,i) => {
-        return parseInt(score) + parseInt(deltaArray[i]);
+        return parseInt(score) + parseInt(newMembersScoresArray[i]) -parseInt(oldMembersScoresArray[i]);
     });
     return dataBase(table).update({members_scores_league: dataBase.raw(`array[${newLeagueScoresArray}]`)})
     .where('leagueid', '=', leagueID).returning('*')

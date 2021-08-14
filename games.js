@@ -87,9 +87,7 @@ const unbonusGame = (req,res) => {
 
 const updateScoresInGames = async function (oldMembersScoresArray, scoresTable) {
     let membersScoresCycle = JSON.parse(JSON.stringify(oldMembersScoresArray));
-    console.log("updateGamesScores",membersScoresCycle,scoresTable);
     for (let i=0; i<scoresTable.length; i++){
-        console.log("game loop",scoresTable[i]);
         if (scoresTable[i].score !== scoresTable[i].newScore){
             await dataBase(table).update({score: scoresTable[i].newScore})
             .where('gameid', scoresTable[i].gameID).returning('*')
@@ -108,10 +106,9 @@ const updateScoresInGames = async function (oldMembersScoresArray, scoresTable) 
                     }
                 }
             });
-            console.log("thisGame",scoresTable[i]);
         }
     }
-    console.log("update cycle Scores", membersScoresCycle, scoresTable);
+    console.log("update cycle Scores", membersScoresCycle);
     return membersScoresCycle;
 }
 
