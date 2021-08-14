@@ -90,28 +90,9 @@ const updateScoresInGames = async function (oldMembersScoresArray, scoresTable) 
     console.log("updateGamesScores",membersScoresCycle,scoresTable);
     for (let i=0; i<scoresTable.length; i++){
         console.log("game loop",scoresTable[i]);
-        if (scoresTable[i].score !== scoresTable[i].newScore){
-            console.log("thisGame",scoresTable[i]);
-            await dataBase(table).update({score: parseInt(scoresTable[i].newScore)})
-            .where('gameid', scoresTable[i].gameID).returning('*')
-            .then( game => {
-                let thisGame = game[0];
-                let bets = thisGame.members_bets;
-                let point = 1;
-                if (thisGame.is_bonus)
-                    point =2;
-                for (let j=0; j<bets.length; j++){
-                    if (parseInt(bets[j]) === parseInt(thisGame.score)){
-                        membersScoresCycle[j] = parseInt(membersScoresCycle[j]) + point;
-                    }
-                    else if (parseInt(scoresTable[i].score) !==0 && parseInt(bets[j]) === parseInt(scoresTable[i].score)){
-                        membersScoresCycle[j] = parseInt(membersScoresCycle[j]) - point;
-                    }
-                }
-            }).catch(err => console.log(err));
-        }
+        
     }
-    console.log("update cycle Scores", scoresArrayForUpdate, newScoreUpdate);
+    console.log("update cycle Scores", membersScoresCycle, scoresTable);
     return membersScoresCycle;
 }
 
