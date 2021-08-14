@@ -85,9 +85,9 @@ const unbonusGame = (req,res) => {
     }).catch(err => {return err});
 }
 
-const updateGamesScores = async function (oldMembersScoresArray, scoresTable) {
+const updateScoresInGames = async function (oldMembersScoresArray, scoresTable) {
     console.log("updateGamesScores",oldMembersScoresArray,scoresTable);
-    let membersScoresCycle = oldMembersScoresArray;
+    let membersScoresCycle = JSON.parse(JSON.stringify(oldMembersScoresArray));
     for (let i=0; i<scoresTable.length(); i++){
         console.log("game loop",scoresTable[i]);
         if (scoresTable[i].score !== scoresTable[i].newScore){
@@ -111,38 +111,12 @@ const updateGamesScores = async function (oldMembersScoresArray, scoresTable) {
             }).catch(err => console.log(err));
         }
     }
+    console.log("update cycle Scores", scoresArrayForUpdate, newScoreUpdate);
     return membersScoresCycle;
 }
 
 //delete
 
-const updateScoresInGames = async function (data, scoresArrayForUpdate) {
-    let newScoreUpdate = JSON.parse(JSON.stringify(scoresArrayForUpdate.members_scores_cycle));
-    for (let i=0; i<data.gamesTable.length; i++){
-        if (data.gamesTable[i].score !== parseInt(data.gamesTable[i].newScore)){
-            await dataBase('games_1').update({score: parseInt(data.gamesTable[i].newScore)})
-            .where('gameid', data.gamesTable[i].gameID).returning('*')
-            .then( game => {
-                let thisGame = game[0];
-                let bets = thisGame.members_bets;
-                console.log("this Game", thisGame);
-                let point = 1;
-                if (thisGame.is_bonus)
-                    point =2;
-                for (let j=0; j<bets.length; j++){
-                    if (parseInt(bets[j]) === parseInt(thisGame.score)){
-                        newScoreUpdate[j] = parseInt(newScoreUpdate[j]) + point;
-                    }
-                    if (parseInt(bets[j]) === parseInt(data.gamesTable[i].score)){
-                        newScoreUpdate[j] = parseInt(newScoreUpdate[j]) - point;
-                    }
-                }
-            }).catch(err => console.log(err));
-        }
-    }
-    console.log("update cycle Scores", scoresArrayForUpdate, newScoreUpdate);
-    return newScoreUpdate;    
-}
 
 const updateScoresInLeague = async function (cycleArrays) {
     let scoreLeagueUpdate = await dataBase('leagues_1').select('*').where('leagueid', cycleArrays.leagueID).returning('members_scores_league');
@@ -193,5 +167,5 @@ exports.addGame = addGame;
 exports.deleteGame = deleteGame;
 exports.bonusGame = bonusGame;
 exports.unbonusGame = unbonusGame;
-exports.updateGamesScores = updateGamesScores;
+exports.updateScoresInGames = updateScoresInGames;
 

@@ -71,16 +71,15 @@ const updateMembersScoresInCycle = async function  (oldMembersScoresArray,newMem
 }
 
 const updateScores = (req,res) => {
-    let scoresTable = req.body.gamesTable;
     let leagueID = 0;
     let oldMembersScoresArray = [];
     return dataBase(table).select('*').where('cycleid','=',req.body.cycleID).returning('*')
     .then( cycle => {
         leagueID = cycle[0].leagueid;
-        oldMembersScoresArray = JSON.parse(JSON.stringify(cycle[0].members_scores_cycle));
-        return games.updateGamesScores(oldMembersScoresArray, scoresTable);
-    }).then( answer => {
-        return updateMembersScoresInCycle(oldMembersScoresArray, answer ,req.body.cycleID); 
+        oldMembersScoresArray = cycle[0].members_scores_cycle;
+        return games.updateScoresInGames(oldMembersScoresArray, req.body.gamesTable);
+        }).then( answer => {
+        return updateMembersScoresInCycle(oldMembersScoresArray, answer, req.body.cycleID); 
     }).then( answer2 => {
         return leagues.updateMembersScoresInLeague(leagueID, answer2); //delta array
     }).then( answer3 => {
