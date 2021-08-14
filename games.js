@@ -89,7 +89,8 @@ const updateGamesScores = async function (oldMembersScoresArray, scoresTable) {
     console.log("updateGamesScores",oldMembersScoresArray,scoresTable);
     let membersScoresCycle = oldMembersScoresArray;
     for (let i=0; i<scoresTable.length(); i++){
-        if (parseInt(scoresTable[i].score) !== parseInt(scoresTable[i].newScore)){
+        console.log("game loop",scoresTable[i]);
+        if (scoresTable[i].score !== scoresTable[i].newScore){
             console.log("thisGame",scoresTable[i]);
             await dataBase(table).update({score: parseInt(scoresTable[i].newScore)})
             .where('gameid', scoresTable[i].gameID).returning('*')
