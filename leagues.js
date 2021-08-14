@@ -2,6 +2,8 @@ const knex = require('knex');
 const DBinfo = require('./DB_info');
 const dataBase = knex(DBinfo.get());
 
+const cycles = require('./cycles');
+const games = require('./games');
 const table = 'leagues_1';
 
 const getLeagueInfo = (leagueID) => {
@@ -27,5 +29,23 @@ const updateMembersScoresInLeague = async function (leagueID, deltaArray) {
     .where('leagueid', '=', leagueID).returning('*')
 }
 
+const leagueAdmin = (req,res) => {
+    let data = {};
+    return dataBase.select('*').from(table)
+    .where('leagueid','=',req.params.id).returning('*')
+    .then( answer => {
+        data = answer[0];
+        return cycles.getCyclesDB(data.leagueid);
+    }).then( answer2 => {
+        data.cyclesDB = answer2;
+        return games.getGamesDB(data.current_cycle_id);
+    }).then ( answer3 => {
+        data.gamesDB = answer3;
+        res.send(data);
+        res.end();        
+    }).catch(err => {return err});
+}
+
 exports.getLeagueInfo = getLeagueInfo;
 exports.updateMembersScoresInLeague = updateMembersScoresInLeague;
+exports.leagueAdmin = leagueAdmin;

@@ -89,10 +89,17 @@ const updateScores = (req,res) => {
     }).catch(err => {return err});
 }
 
+const getCyclesDB = (leagueID) => {
+    return dataBase.select('*').from(table)
+    .where(leagueid, '=', leagueID).returning('*')
+    .catch(err => {return err});
+}
+
 
 exports.getCycleScores = getCycleScores;
 exports.getCycleData = getCycleData;
 exports.addGameToGamesIDsArray = addGameToGamesIDsArray;
 exports.deleteGameFromGamesIDsArray = deleteGameFromGamesIDsArray;
 exports.updateScores = updateScores;
+exports.getCyclesDB = getCyclesDB;
 

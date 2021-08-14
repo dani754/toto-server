@@ -83,8 +83,14 @@ server.post('/updatescores', (req,res) => {
     .catch (err => res.sendStatus(400));
 });
 
+server.get('/leagueadmin/:id', (req,res) => {
+    return leagues.leagueAdmin(req,res)
+    .catch (err => res.sendStatus(400));
+});
+
 
 //todo
+
 
 server.get('/home/leagueadmin/:id', (req,res) => {
     return Admin.fullLeagueData(req.params.id)
@@ -94,6 +100,7 @@ server.get('/home/leagueadmin/:id', (req,res) => {
         res.end();
     }).catch(err => res.sendStatus(400))
 });
+
 
 server.post('/createleague', (req,res) => {
     return LeagueDB.createLeague(req.body)
