@@ -77,7 +77,7 @@ const updateScores = (req,res) => {
     return dataBase(table).select('*').where('cycleid','=',req.body.cycleID).returning('*')
     .then( cycle => {
         leagueID = cycle[0].leagueid;
-        oldMembersScoresArray = JSON.parse(JSON.stringify(cycle.members_scores_cycle));
+        oldMembersScoresArray = JSON.parse(JSON.stringify(cycle[0].members_scores_cycle));
         return games.updateGamesScores(oldMembersScoresArray, scoresTable);
     }).then( answer => {
         return updateMembersScoresInCycle(oldMembersScoresArray, answer ,req.body.cycleID); 
