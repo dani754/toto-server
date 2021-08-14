@@ -95,6 +95,7 @@ const updateGamesScores = async function (oldMembersScoresArray, scoresTable) {
             .where('gameid', thisGame.gameID).returning('*')
             .then( game => {
                 thisGame = game[0];
+                console.log("thisGame",thisGame);
                 let bets = thisGame.members_bets;
                 let point = 1;
                 if (thisGame.is_bonus)
