@@ -52,11 +52,13 @@ const addCycle = (req, res) => {
     .where('leagueid','=',req.params.id).returning('*')
     .then( answer => {
         league = answer[0];
+        console.log("add cycle with data", league);
         return cycles.addCycle(league.leagueid, league.members_ids.length(), league.cycles_ids.length());
     }).then( answer2 => {
         return dataBase(table).update({cycles_ids: dataBase.raw('array_append(cycles_ids, ?)', [answer2])})
         .where('leagueid', '=', req.params.id).returning('*')
     }).then( answer3 => {
+        console.log("update data info", league);
         res.send(answer3[0]);
         res.end();
     }).catch(err => res.status(400).json(err));

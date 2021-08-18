@@ -93,8 +93,25 @@ const addCycle = (leagueID, membersCount, cycleOrder) => {
                                    members_scores_cycle: dataBase.raw(`array[${Array(membersCount).fill(0)}]`)})
     .returning('*')
     .then( answer => {
+        console.log("add cycle with data", answer[0]);
         return answer[0].cycleid;
     }).catch(err => {return err});
+}
+
+const lockForBets = (req,res) => {
+
+}
+
+const unlockForBets = (req,res) => {
+
+}
+
+const lockForUpdates = (req,res) => {
+
+}
+
+const unlockForUpdates = (req,res) => {
+
 }
 
 
@@ -105,4 +122,8 @@ exports.deleteGameFromGamesIDsArray = deleteGameFromGamesIDsArray;
 exports.updateScores = updateScores;
 exports.getCyclesDB = getCyclesDB;
 exports.addCycle = addCycle;
+exports.lockForBets = lockForBets;
+exports.unlockForBets = unlockForBets;
+exports.lockForUpdates = lockForUpdates;
+exports.unlockForUpdates = unlockForUpdates;
 

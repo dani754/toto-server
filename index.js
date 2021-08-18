@@ -101,6 +101,54 @@ server.get('/addcycle/:id', (req,res) => {
     .catch (err => res.sendStatus(400));
 });
 
+server.get('/lock-for-bets/:id', (req,res) => {
+    return cycles.lockForBets(req,res)
+    .catch (err => res.sendStatus(400));
+});
+
+server.get('/unlock-for-bets/:id', (req,res) => {
+    return cycles.unlockForBets(req,res)
+    .catch (err => res.sendStatus(400));
+});
+
+server.get('/lock-for-updates/:id', (req,res) => {
+    return cycles.lockForUpdates(req,res)
+    .catch (err => res.sendStatus(400));
+});
+
+server.get('/unlock-for-updates/:id', (req,res) => {
+    return cycles.unlockForUpdates(req,res)
+    .catch (err => res.sendStatus(400));
+});
+
+
+server.get('/unclosecycle/:id', (req,res) => {
+    console.log("start unclosecycle is")
+    return CycleDB.unCloseCycle(req.params.id)
+    .then ( data => {
+        let answer = data;
+        console.log("the answer for unCloseCycle is: ", answer);
+        res.send(answer);
+        res.end();
+    }).catch(err => res.status(400).json(err));
+});
+
+
+server.get('/lockcycle/:id', (req,res) => {
+    CycleDB.lockCycle(req,res);
+});
+
+server.get('/unlockcycle/:id', (req,res) => {
+    console.log("start unlockcycle is")
+    return CycleDB.unLockCycle(req.params.id)
+    .then ( data => {
+        let answer = data;
+        console.log("the answer for unLockCycle is: ", answer);
+        res.send(answer);
+        res.end();
+    }).catch(err => res.status(400).json(err));
+});
+
 
 //todo
 
@@ -144,42 +192,10 @@ server.post('/updatecurrentcycle', (req,res) => {
 
 
 
-
-
-server.get('/unclosecycle/:id', (req,res) => {
-    console.log("start unclosecycle is")
-    return CycleDB.unCloseCycle(req.params.id)
-    .then ( data => {
-        let answer = data;
-        console.log("the answer for unCloseCycle is: ", answer);
-        res.send(answer);
-        res.end();
-    }).catch(err => res.status(400).json(err));
-});
-
-server.get('/unlockcycle/:id', (req,res) => {
-    console.log("start unlockcycle is")
-    return CycleDB.unLockCycle(req.params.id)
-    .then ( data => {
-        let answer = data;
-        console.log("the answer for unLockCycle is: ", answer);
-        res.send(answer);
-        res.end();
-    }).catch(err => res.status(400).json(err));
-});
-
-
-server.get('/lockcycle/:id', (req,res) => {
-    CycleDB.lockCycle(req,res);
-});
-
 server.get('/verifybets/:id', (req,res) => {
     CycleDB.verifyBets(req,res);
 });
 
-server.get('/closecycle/:id', (req,res) => {
-    CycleDB.closeCycle(req,res);
-});
 
 
 server.listen(PORT, () => console.log("listening on port " + PORT));
