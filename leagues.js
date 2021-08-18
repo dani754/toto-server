@@ -47,7 +47,7 @@ const leagueAdmin = (req,res) => {
     }).catch(err => {return err});
 }
 
-const addCycle = (res, req) => {
+const addCycle = (req, res) => {
     return dataBase.select('*').from(table)
     .where('leagueid','=',req.params.id).returning('*')
     .then( answer => {
