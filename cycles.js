@@ -87,6 +87,16 @@ const getCyclesDB = (leagueID) => {
     .catch(err => {return err});
 }
 
+const addCycle = (leagueID, membersCount, cycleOrder) => {
+    return dataBase(table).insert({leagueid: leagueID,
+                                   order_in_league: cycleOrder,
+                                   members_scores_cycle: dataBase.raw(`array[${Array(membersCount).fill(0)}]`)})
+    .returning('*')
+    .then( answer => {
+        return answer[0].cycleid;
+    }).catch(err => {return err});
+}
+
 
 exports.getCycleScores = getCycleScores;
 exports.getCycleData = getCycleData;
@@ -94,4 +104,5 @@ exports.addGameToGamesIDsArray = addGameToGamesIDsArray;
 exports.deleteGameFromGamesIDsArray = deleteGameFromGamesIDsArray;
 exports.updateScores = updateScores;
 exports.getCyclesDB = getCyclesDB;
+exports.addCycle = addCycle;
 

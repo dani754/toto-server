@@ -47,6 +47,23 @@ const leagueAdmin = (req,res) => {
     }).catch(err => {return err});
 }
 
+const addCycle = (res, req) => {
+    return dataBase.select('*').from(table)
+    .where('leagueid','=',req.params.id).returning('*')
+    .then( answer => {
+        league = answer[0];
+        return cycles.addCycle(league.leagueid, league.members_ids.length(), league.cycles_ids.length());
+    }).then( answer2 => {
+        return dataBase(table).update({cycles_ids: dataBase.raw('array_append(cycles_ids, ?)', [answer2])})
+        .where('leagueid', '=', req.params.id).returning('*')
+    }).then( answer3 => {
+        res.send(answer3[0]);
+        res.end();
+    }).catch(err => res.status(400).json(err));
+}
+
+
 exports.getLeagueInfo = getLeagueInfo;
 exports.updateMembersScoresInLeague = updateMembersScoresInLeague;
 exports.leagueAdmin = leagueAdmin;
+exports.addCycle = addCycle;

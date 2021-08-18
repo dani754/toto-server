@@ -96,6 +96,11 @@ server.get('/gamesDB/:id', (req,res) => {
     }).catch (err => res.sendStatus(400));
 });
 
+server.get('/addcycle/:id', (req,res) => {
+    return leagues.addCycle(req,res)
+    .catch (err => res.sendStatus(400));
+});
+
 
 //todo
 
@@ -163,9 +168,6 @@ server.get('/unlockcycle/:id', (req,res) => {
     }).catch(err => res.status(400).json(err));
 });
 
-server.get('/addcycle/:id', (req,res) => {
-    CycleDB.addCycle(req,res);
-});
 
 server.get('/lockcycle/:id', (req,res) => {
     CycleDB.lockCycle(req,res);
