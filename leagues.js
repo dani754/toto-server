@@ -52,7 +52,7 @@ const addCycle = (req, res) => {
     .where('leagueid','=',req.params.id).returning('*')
     .then( answer => {
         league = answer[0];
-        console.log("add cycle with data", league);
+        console.log("add cycle with data", league.leagueid, league.members_ids.length(), league.cycles_ids.length());
         return cycles.addCycle(league.leagueid, league.members_ids.length(), league.cycles_ids.length());
     }).then( answer2 => {
         return dataBase(table).update({cycles_ids: dataBase.raw('array_append(cycles_ids, ?)', [answer2])})
