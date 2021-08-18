@@ -47,19 +47,31 @@ const leagueAdmin = (req,res) => {
     }).catch(err => {return err});
 }
 
-const addCycle = (req, res) => {
+const addCycle = (req,res) => {
+    let newCycle = 0;
     return dataBase.select('*').from(table)
     .where('leagueid','=',req.params.id).returning('*')
     .then( answer => {
-        league = answer[0];
+        let league = answer[0];
         console.log("add cycle with data", league.leagueid, league.members_ids.length(), league.cycles_ids.length());
         return cycles.addCycle(league.leagueid, league.members_ids.length(), league.cycles_ids.length());
     }).then( answer2 => {
-        return dataBase(table).update({cycles_ids: dataBase.raw('array_append(cycles_ids, ?)', [answer2])})
+        newCycle = answer2;
+        return dataBase(table).update({cycles_ids: dataBase.raw('array_append(cycles_ids, ?)', [newCycle])})
         .where('leagueid', '=', req.params.id).returning('*')
     }).then( answer3 => {
-        console.log("update data info", league);
-        res.send(answer3[0]);
+        console.log("update data info", newCycle);
+        res.send(newCycle.toString());
+        res.end();
+    }).catch(err => res.status(400).json(err));
+}
+
+const setCurrentCycle = (req,res) => {
+    return dataBase(table).update({current_cycle_id: req.body.cycleid})
+        .where('leagueid', '=', req.body.leagueid).returning('*')
+        .then( answer => {
+        console.log("update info", answer[0]);
+        res.send(answer[0]);
         res.end();
     }).catch(err => res.status(400).json(err));
 }
@@ -69,3 +81,4 @@ exports.getLeagueInfo = getLeagueInfo;
 exports.updateMembersScoresInLeague = updateMembersScoresInLeague;
 exports.leagueAdmin = leagueAdmin;
 exports.addCycle = addCycle;
+exports.setCurrentCycle = setCurrentCycle;

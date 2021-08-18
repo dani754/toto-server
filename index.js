@@ -122,6 +122,19 @@ server.get('/unlock-for-updates/:id', (req,res) => {
 });
 
 
+
+server.post('/set-current-cycle', (req,res) => {
+    return leagues.setCurrentCycle(req,res)
+    .catch (err => res.sendStatus(400));
+});
+
+
+
+
+
+//todo
+
+
 server.get('/unclosecycle/:id', (req,res) => {
     console.log("start unclosecycle is")
     return CycleDB.unCloseCycle(req.params.id)
@@ -149,11 +162,6 @@ server.get('/unlockcycle/:id', (req,res) => {
     }).catch(err => res.status(400).json(err));
 });
 
-
-//todo
-
-
-
 server.post('/createleague', (req,res) => {
     return LeagueDB.createLeague(req.body)
     .then( answer => {
@@ -177,18 +185,6 @@ server.post('/changeleaguename', (req,res) => {
         res.end();
     }).catch(err => res.status(400).json(err));
 });
-
-server.post('/updatecurrentcycle', (req,res) => {
-    console.log("updatecurrentcycle", req.body);
-    return Admin.updateCurrentCycle(req.body)
-    .then ( data => {
-        let answer = data;
-        console.log("the answer for updateCurrentCycle is: ", answer);
-        res.send(answer);
-        res.end();
-    }).catch(err => res.status(400).json(err));
-});
-
 
 
 
