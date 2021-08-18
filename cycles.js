@@ -100,7 +100,7 @@ const addCycle = (leagueID, membersCount, cycleOrder) => {
 
 const lockForBets = (req,res) => {
     return dataBase(table).update({lock_for_bets: true})
-    .where(cycleid, '=', req.params.id).returning('*')
+    .where('cycleid', '=', req.params.id).returning('*')
     .then( answer => {
         res.send(answer[0]);
         res.end();
@@ -109,7 +109,7 @@ const lockForBets = (req,res) => {
 
 const unlockForBets = (req,res) => {
     return dataBase(table).update({lock_for_bets: false})
-    .where(cycleid, '=', req.params.id).returning('*')
+    .where('cycleid', '=', req.params.id).returning('*')
     .then( answer => {
         res.send(answer[0]);
         res.end();
@@ -118,7 +118,7 @@ const unlockForBets = (req,res) => {
 
 const lockForUpdates = (req,res) => {
     return dataBase(table).update({lock_for_updates: true})
-    .where(cycleid, '=', req.params.id).returning('*')
+    .where('cycleid', '=', req.params.id).returning('*')
     .then( answer => {
         res.send(answer[0]);
         res.end();
@@ -127,7 +127,7 @@ const lockForUpdates = (req,res) => {
 
 const unlockForUpdates = (req,res) => {
     return dataBase(table).update({lock_for_updates: false})
-    .where(cycleid, '=', req.params.id).returning('*')
+    .where('cycleid', '=', req.params.id).returning('*')
     .then( answer => {
         res.send(answer[0]);
         res.end();
