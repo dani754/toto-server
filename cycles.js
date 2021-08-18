@@ -99,19 +99,39 @@ const addCycle = (leagueID, membersCount, cycleOrder) => {
 }
 
 const lockForBets = (req,res) => {
-
+    return dataBase(table).update({lock_for_bets: true})
+    .where(cycleid, '=', req.params.id).returning('*')
+    .then( answer => {
+        res.send(answer[0]);
+        res.end();
+    }).catch(err => {return err});
 }
 
 const unlockForBets = (req,res) => {
-
+    return dataBase(table).update({lock_for_bets: false})
+    .where(cycleid, '=', req.params.id).returning('*')
+    .then( answer => {
+        res.send(answer[0]);
+        res.end();
+    }).catch(err => {return err});
 }
 
 const lockForUpdates = (req,res) => {
-
+    return dataBase(table).update({lock_for_updates: true})
+    .where(cycleid, '=', req.params.id).returning('*')
+    .then( answer => {
+        res.send(answer[0]);
+        res.end();
+    }).catch(err => {return err});
 }
 
 const unlockForUpdates = (req,res) => {
-
+    return dataBase(table).update({lock_for_updates: false})
+    .where(cycleid, '=', req.params.id).returning('*')
+    .then( answer => {
+        res.send(answer[0]);
+        res.end();
+    }).catch(err => {return err});
 }
 
 
