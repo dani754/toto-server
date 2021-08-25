@@ -54,8 +54,8 @@ const addCycle = (req,res) => {
     .then( answer => {
         let league = answer[0];
         let membersCount = league.members_ids.length;
-        let cycleOrder = league.cycles_ids.length;
-        console.log("add cycle with data",membersCount,cycleOrder );
+        let cycleOrder = league.cycles_ids.length + 1;
+        console.log("add cycle with data", req.params.id, membersCount, cycleOrder );
         return cycles.addCycle(req.params.id, membersCount, cycleOrder);
     }).then( answer2 => {
         newCycle = answer2;

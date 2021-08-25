@@ -88,6 +88,7 @@ const getCyclesDB = (leagueID) => {
 }
 
 const addCycle = (leagueID, membersCount, cycleOrder) => {
+    console.log("add cycle in cycles data", leagueID, membersCount, cycleOrder, `array[${Array(membersCount).fill(0)}]`);
     return dataBase(table).insert({leagueid: leagueID,
                                    order_in_league: cycleOrder,
                                    members_scores_cycle: dataBase.raw(`array[${Array(membersCount).fill(0)}]`)})
