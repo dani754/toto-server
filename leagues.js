@@ -49,19 +49,20 @@ const leagueAdmin = (req,res) => {
 
 const addCycle = (req,res) => {
     let newCycle = 0;
-    console.log("add cycle", req.params.id, newCycle);
     return dataBase.select('*').from(table)
-    .where('leagueid','=',req.params.id).returning('*')
+    .where('leagueid', req.params.id).returning('*')
     .then( answer => {
         let league = answer[0];
-        console.log("add cycle with data", league.leagueid, league.members_ids.length(), league.cycles_ids.length());
-        return cycles.addCycle(league.leagueid, league.members_ids.length(), league.cycles_ids.length());
+        let membersCount = league.members_ids.length;
+        let cycleOrder = league.cycles_ids.length;
+        console.log("add cycle with data",membersCount,cycleOrder );
+        return cycles.addCycle(req.params.id, membersCount, cycleOrder);
     }).then( answer2 => {
         newCycle = answer2;
         return dataBase(table).update({cycles_ids: dataBase.raw('array_append(cycles_ids, ?)', [newCycle])})
         .where('leagueid', '=', req.params.id).returning('*')
     }).then( answer3 => {
-        console.log("update data info", newCycle);
+        console.log("update data info", newCycle, answer3);
         res.send(newCycle.toString());
         res.end();
     }).catch(err => {return err});
