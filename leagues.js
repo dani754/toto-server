@@ -49,6 +49,7 @@ const leagueAdmin = (req,res) => {
 
 const addCycle = (req,res) => {
     let newCycle = 0;
+    console.log("add cycle", req.params.id, newCycle);
     return dataBase.select('*').from(table)
     .where('leagueid','=',req.params.id).returning('*')
     .then( answer => {
