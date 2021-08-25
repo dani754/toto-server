@@ -64,7 +64,7 @@ const addCycle = (req,res) => {
         console.log("update data info", newCycle);
         res.send(newCycle.toString());
         res.end();
-    }).catch(err => res.status(400).json(err));
+    }).catch(err => {return err});
 }
 
 const setCurrentCycle = (req,res) => {
