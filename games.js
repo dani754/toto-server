@@ -39,14 +39,10 @@ const updateBets = (req,res) => {
 }
 
 const addGame = (req,res) => {
-    console.log("req addgame", req.body, Array(req.body.leagueSize).fill(0));
     return dataBase(table).returning('*')
-    .insert({
-        cycleid: req.body.cycleID,
-        home_team: req.body.hometeam,
-        away_team: req.body.awayteam,
-        members_bets: dataBase.raw(`array[${Array(req.body.leagueSize).fill(0)}]`)
-    }).then( answer => {
+        .insert({cycleid: req.body.cycleID, home_team: req.body.hometeam, away_team: req.body.awayteam,
+            members_bets: dataBase.raw(`array[${Array(req.body.leagueSize).fill(0)}]`)})
+    .then( answer => {
         let game = answer[0];
         console.log("new addgame", game);
         return cycles.addGameToGamesIDsArray(game.cycleid, game.gameid, req.body.isFirst);
@@ -56,6 +52,7 @@ const addGame = (req,res) => {
         res.end();
     }).catch(err => {return err});
 }
+
 
 const deleteGame = (req,res) => {
     return dataBase(table).where('gameid', '=', parseInt(req.params.id)).returning('*').del()
