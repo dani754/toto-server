@@ -56,7 +56,7 @@ const addGame = (req,res) => {
 
 
 const gamesArray = (homeArr, awayArr, cycleID, leagueSize) => {
-    return homeArr.map( (game,i) => {
+    let arr = homeArr.map( (game,i) => {
         return ({
             cycleid: parseInt(cycleID),
             home_team: parseInt(homeArr[i]),
@@ -64,6 +64,7 @@ const gamesArray = (homeArr, awayArr, cycleID, leagueSize) => {
             members_bets: dataBase.raw(`array[${Array(leagueSize).fill(0)}]`)
         });
     });   
+    return arr;
 }
 
 const addGames = (req,res) => {
