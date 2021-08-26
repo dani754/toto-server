@@ -40,6 +40,7 @@ const updateBets = (req,res) => {
 
 const addGame = (req,res) => {
     let data = req.body;
+    console.log("req addgame", data);
     return dataBase(table).insert({
         cycleid: data.cycleID,
         home_team: data.hometeam,
@@ -48,8 +49,10 @@ const addGame = (req,res) => {
     }).returning('*')
     .then( answer => {
         let game = answer[0];
+        console.log("new addgame", game);
         return cycles.addGameToGamesIDsArray(game.cycleid, game.gameid, data.isFirst);
     }).then( answer2 => {
+        console.log("finish addgame", answer2);
         res.send(answer2[0]);
         res.end();
     }).catch(err => {return err});

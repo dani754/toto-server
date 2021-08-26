@@ -33,7 +33,9 @@ const getCycleData = (req,res) => {
 }
 
 const addGameToGamesIDsArray = (cycleID, gameID, isFirst) => {
+    console.log("first game in cycle", cycleID, gameID, isFirst);
     if (isFirst){
+        console.log("first game in cycle", game);
         return dataBase(table).update({ games_ids: dataBase.raw(`array[${gameID}]`)})
         .where('cycleid', '=', cycleID).returning('*')
         .catch(err => {return err});
