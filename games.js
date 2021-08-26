@@ -45,7 +45,7 @@ const addGame = (req,res) => {
         cycleid: data.cycleID,
         home_team: data.hometeam,
         away_team: data.awayteam,
-        members_bets: dataBase.raw(`array[${Array(data.leagueSize).fill(0)}]`),
+        members_bets: dataBase.raw(`array[${Array(parseInt(data.leagueSize)).fill(0)}]`),
     }).returning('*')
     .then( answer => {
         let game = answer[0];
