@@ -55,13 +55,13 @@ const addGame = (req,res) => {
 
 
 
-const gamesArray = async function (homeArr, awayArr, cycleID, leagueSize){
+const gamesArray = (homeArr, awayArr, cycleID, leagueSize) => {
     return homeArr.map( (game,i) => {
         return ({
             cycleid: parseInt(cycleID),
             home_team: parseInt(homeArr[i]),
             away_team: parseInt(awayArr[i]),
-            members_bets: await dataBase.raw(`array[${Array(leagueSize).fill(0)}]`)
+            members_bets: dataBase.raw(`array[${Array(leagueSize).fill(0)}]`)
         });
     });   
 }
