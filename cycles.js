@@ -57,7 +57,7 @@ const addGamesToCycleGamesArray = (gamesArray) => {
             return dataBase(table).update({games_ids: dataBase.raw(`array[${gamesIDs}]`)})
             .where('cycleid', '=', gamesArray[0].cycleid).returning('*');
         } else {
-            let newGamesIDs = answer[0].games_ids.concat(gamesIDs);
+            let newGamesIDs = JSON.parse(JSON.stringify(answer[0].games_ids.concat(gamesIDs)));
             return dataBase(table).update({games_ids: dataBase.raw(`array[${newGamesIDs}]`)})
             .where('cycleid', '=', gamesArray[0].cycleid).returning('*');
         }

@@ -55,11 +55,12 @@ const addGame = (req,res) => {
 
 const addGames = (req,res) => {
     console.log("add games req", req.body);
-    let insertArray = req.body.hometeam.length.map( (game,i) => {
+    let arr = req.body.hometeam;
+    let insertArray = arr.map( (game,i) => {
         return ({
-            cycleid: req.body.cycleID,
-            home_team: req.body.hometeam[i],
-            away_team: req.body.awayteam[i],
+            cycleid: parseInt(req.body.cycleID),
+            home_team: parseInt(req.body.hometeam[i]),
+            away_team: parseInt(req.body.awayteam[i]),
             members_bets: dataBase.raw(`array[${Array(req.body.leagueSize).fill(0)}]`)
         });
     });
