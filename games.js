@@ -49,7 +49,7 @@ const addGame = (req,res) => {
     }).then( answer => {
         let game = answer[0];
         console.log("new addgame", game);
-        return cycles.addGameToGamesIDsArray(game.cycleid, game.gameid, data.isFirst);
+        return cycles.addGameToGamesIDsArray(game.cycleid, game.gameid, req.body.isFirst);
     }).then( answer2 => {
         console.log("finish addgame", answer2);
         res.send(answer2[0]);
