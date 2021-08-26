@@ -39,15 +39,14 @@ const updateBets = (req,res) => {
 }
 
 const addGame = (req,res) => {
-    let data = req.body;
-    console.log("req addgame", data);
-    return dataBase(table).insert({
-        cycleid: data.cycleID,
-        home_team: data.hometeam,
-        away_team: data.awayteam,
-        members_bets: dataBase.raw(`array[${Array(parseInt(data.leagueSize)).fill(0)}]`),
-    }).returning('*')
-    .then( answer => {
+    console.log("req addgame", req.body, Array(req.body.leagueSize).fill(0));
+    return dataBase(table).returning('*')
+    .insert({
+        cycleid: req.body.cycleID,
+        home_team: req.body.hometeam,
+        away_team: req.body.awayteam,
+        members_bets: dataBase.raw(`array[${Array(req.body.leagueSize).fill(0)}]`)
+    }).then( answer => {
         let game = answer[0];
         console.log("new addgame", game);
         return cycles.addGameToGamesIDsArray(game.cycleid, game.gameid, data.isFirst);
