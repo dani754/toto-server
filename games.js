@@ -53,28 +53,32 @@ const addGame = (req,res) => {
     }).catch(err => {return err});
 }
 
-const addGames = (req,res) => {
-    console.log("add games req", req.body);
-    let arr = req.body.hometeam;
-    let insertArray = arr.map( (game,i) => {
+
+
+const gamesArray = async function (homeArr, awayArr, cycleID, leagueSize){
+    return homeArr.map( (game,i) => {
         return ({
-            cycleid: parseInt(req.body.cycleID),
-            home_team: parseInt(req.body.hometeam[i]),
-            away_team: parseInt(req.body.awayteam[i]),
-            members_bets: dataBase.raw(`array[${Array(req.body.leagueSize).fill(0)}]`)
+            cycleid: await parseInt(cycleID),
+            home_team: await parseInt(homeArr[i]),
+            away_team: await parseInt(awayArr[i]),
+            members_bets: await dataBase.raw(`array[${Array(leagueSize).fill(0)}]`)
         });
-    });
-    return dataBase(table).returning('*').insert(insertArray)
+    });   
+}
+
+const addGames = (req,res) => {
+    return gamesArray(req.body.hometeam, req.body.awayteam, req.body.cycleID, req.body.leagueSize)
     .then( answer => {
-        console.log("new addgame", answer);
-        return cycles.addGamesToCycleGamesArray(answer);
+        console.log("data addgame", answer);
+        return dataBase(table).returning('*').insert(answer);
     }).then( answer2 => {
-        console.log("finish addgame", answer2);
-        res.send(answer2[0]);
+        console.log("new addgame", answer2);
+        return cycles.addGamesToCycleGamesArray(answer);
+    }).then( answer3 => {
+        console.log("finish addgame", answer3);
+        res.send(answer3[0]);
         res.end();
     }).catch(err => {return err});
-
-
 }
 
 
