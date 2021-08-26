@@ -62,6 +62,11 @@ server.post('/addgame', (req,res) => {
     .catch (err => res.sendStatus(400));
 });
 
+server.post('/addgames', (req,res) => {
+    return games.addGames(req,res)
+    .catch (err => res.sendStatus(400));
+});
+
 server.get('/deletegame/:id', (req,res) => {
     return games.deleteGame(req,res)
     .catch (err => res.sendStatus(400));

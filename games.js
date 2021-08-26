@@ -53,6 +53,29 @@ const addGame = (req,res) => {
     }).catch(err => {return err});
 }
 
+const addGames = (req,res) => {
+    console.log("add games req", req.body);
+    let insertArray = req.body.hometeam.length.map( (game,i) => {
+        return ({
+            cycleid: req.body.cycleID,
+            home_team: req.body.hometeam[i],
+            away_team: req.body.awayteam[i],
+            members_bets: dataBase.raw(`array[${Array(req.body.leagueSize).fill(0)}]`)
+        });
+    });
+    return dataBase(table).returning('*').insert(insertArray)
+    .then( answer => {
+        console.log("new addgame", answer);
+        return cycles.addGamesToCycleGamesArray(answer);
+    }).then( answer2 => {
+        console.log("finish addgame", answer2);
+        res.send(answer2[0]);
+        res.end();
+    }).catch(err => {return err});
+
+
+}
+
 
 const deleteGame = (req,res) => {
     return dataBase(table).where('gameid', '=', parseInt(req.params.id)).returning('*').del()
@@ -164,4 +187,4 @@ exports.deleteGame = deleteGame;
 exports.bonusGame = bonusGame;
 exports.unbonusGame = unbonusGame;
 exports.updateScoresInGames = updateScoresInGames;
-
+exports.addGames = addGames;

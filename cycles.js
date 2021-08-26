@@ -46,6 +46,25 @@ const addGameToGamesIDsArray = (cycleID, gameID, isFirst) => {
     }
 }
 
+const addGamesToCycleGamesArray = (gamesArray) => {
+    return dataBase.select('*').from(table)
+    .where('cycleid','=',gamesArray[0].cycleid).returning('*')
+    .then( answer => {
+        let gamesIDs = gamesArray.map( game => {
+            return game.gameid;
+        });
+        if (answer[0].gamesDB === null){
+            return dataBase(table).update({games_ids: dataBase.raw(`array[${gamesIDs}]`)})
+            .where('cycleid', '=', gamesArray[0].cycleid).returning('*');
+        } else {
+            let newGamesIDs = answer[0].games_ids.concat(gamesIDs);
+            return dataBase(table).update({games_ids: dataBase.raw(`array[${newGamesIDs}]`)})
+            .where('cycleid', '=', gamesArray[0].cycleid).returning('*');
+        }
+    }).catch(err => {return err});
+}
+
+
 const deleteGameFromGamesIDsArray = (cycleID, gameID) => {
     return dataBase(table).select('*').where('cycleid', '=', cycleID).returning('*')
     .then ( answer => {
@@ -137,6 +156,7 @@ const unlockForUpdates = (req,res) => {
 }
 
 
+
 exports.getCycleScores = getCycleScores;
 exports.getCycleData = getCycleData;
 exports.addGameToGamesIDsArray = addGameToGamesIDsArray;
@@ -148,4 +168,5 @@ exports.lockForBets = lockForBets;
 exports.unlockForBets = unlockForBets;
 exports.lockForUpdates = lockForUpdates;
 exports.unlockForUpdates = unlockForUpdates;
+exports.addGamesToCycleGamesArray = addGamesToCycleGamesArray;
 
